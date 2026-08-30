@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; }
+    a { color: #38e0d0; text-decoration: none; }
+    a:hover { color: #6fece0; }
+    input::placeholder { color: #6b6a78; }
+    .scroll { scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { width: 0; height: 0; }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #141118; color: #f2f1f5; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+
+  <div style="position: absolute; top: -150px; right: -100px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(56,224,208,0.16), transparent 70%); pointer-events: none;"></div>
+
+  <div style="padding: 20px 20px 12px; position: relative; z-index: 1;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <button style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: #1c1b24; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2f1f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+      </button>
+      <div style="text-align: center;">
+        <div style="font-size: 11px; color: #a3a1b0; letter-spacing: 0.03em;">Colección</div>
+        <div style="font-weight: 700; font-size: 14px; margin-top: 1px;">Hot Wheels Mainline 2024</div>
+      </div>
+      <button style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: #1c1b24; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2f1f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+      </button>
+    </div>
+
+    <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; margin-top: 16px;">Objetos</div>
+    <div style="font-size: 12px; color: #a3a1b0; margin-top: 3px;">{{countLabel}} · valor de tu set {{setValueLabel}}</div>
+
+    <div style="display: flex; align-items: center; gap: 10px; height: 46px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 14px; padding: 0 14px; margin-top: 14px;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a3a1b0" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+      <input placeholder="Busca por nombre o número" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px;" />
+    </div>
+
+    <div class="scroll" style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px;">
+      <sc-for list="{{chips}}" as="chip" hint-placeholder-count="5">
+        <button onClick="{{chip.pick}}" style="flex-shrink: 0; height: 34px; padding: 0 14px; border-radius: 10px; border: 1px solid {{chip.border}}; background: {{chip.bg}}; color: {{chip.fg}}; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12.5px; cursor: pointer;">{{chip.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div class="scroll" style="flex: 1; overflow-y: auto; padding: 8px 20px 26px; position: relative; z-index: 1;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <sc-for list="{{items}}" as="item" hint-placeholder-count="5">
+        <div style="display: flex; gap: 12px; align-items: center; background: #1a1922; border: 1px solid #262530; border-radius: 16px; padding: 10px;">
+          <div style="width: 60px; height: 60px; border-radius: 13px; flex-shrink: 0; position: relative; display: flex; align-items: center; justify-content: center; background: {{item.coverBg}}; box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="rgba(255,255,255,0.92)"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg>
+            <div style="position: absolute; top: 5px; right: 5px; width: 9px; height: 9px; border-radius: 50%; background: {{item.rarityColor}}; box-shadow: 0 0 0 2px rgba(20,17,24,0.55);"></div>
+          </div>
+
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; align-items: baseline; gap: 6px;">
+              <div style="font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</div>
+              <div style="font-size: 11px; color: #6b6a78; flex-shrink: 0;">{{item.num}}</div>
+            </div>
+            <div style="font-size: 11.5px; color: #a3a1b0; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{item.desc}}</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; color: {{item.rarityColor}}; background: {{item.rarityBg}};">{{item.rarity}}</span>
+              <span style="font-size: 12px; font-weight: 700; color: #f2f1f5;">{{item.valueLabel}}</span>
+            </div>
+          </div>
+
+          <button onClick="{{item.toggleOwned}}" style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: 1.6px solid {{item.ownBorder}}; background: {{item.ownBg}}; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{item.ownCheck}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
+          </button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="text-align: center; font-size: 11px; color: #4d4c58; margin-top: 18px; line-height: 1.5;">Los datos de cada pieza vienen del catálogo oficial de la colección</div>
+  </div>
+
+  <div style="display: flex; border-top: 1px solid #232230; background: #161520; padding: 8px 12px 12px; position: relative; z-index: 1;">
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #a970ff; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a970ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"></rect></svg>
+      Colecciones
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M15.5 8.5l-2 5-5 2 2-5z"></path></svg>
+      Explorar
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+      Añadir
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M5.5 20c1.2-3.4 4-5 6.5-5s5.3 1.6 6.5 5"></path></svg>
+      Perfil
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { filter: 'todos', owned: { i1: true, i3: true, i5: true } };
+  }
+  renderVals() {
+    const RC = { common: '#8b8a9c', rare: '#38c6e0', epic: '#a970ff', legendary: '#ffc857' };
+    const RB = { common: 'rgba(139,138,156,0.16)', rare: 'rgba(56,198,224,0.16)', epic: 'rgba(169,112,255,0.16)', legendary: 'rgba(255,200,87,0.16)' };
+    const RL = { common: 'Común', rare: 'Rara', epic: 'Épica', legendary: 'Legendaria' };
+    const catalog = [
+      { id: 'i1', name: "Chevrolet Camaro '67", num: '#012', desc: 'Spectraflame azul, ruedas Real Riders', rarity: 'epic', value: 18, pop: 90, hue: 268 },
+      { id: 'i2', name: 'Nissan Skyline GT-R (R34)', num: '#045', desc: 'Súper Treasure Hunt, tirada muy corta', rarity: 'legendary', value: 140, pop: 99, hue: 210 },
+      { id: 'i3', name: 'Porsche 911 GT3 RS', num: '#078', desc: 'Serie Exotics, decoración deportiva', rarity: 'rare', value: 6, pop: 72, hue: 25 },
+      { id: 'i4', name: 'VW Drag Bus', num: '#103', desc: 'Reedición clásica, cofre naranja', rarity: 'epic', value: 22, pop: 81, hue: 150 },
+      { id: 'i5', name: 'Mazda RX-7 FD', num: '#131', desc: 'Serie J-Imports, acabado perla', rarity: 'common', value: 3, pop: 64, hue: 320 },
+      { id: 'i6', name: 'Tesla Cybertruck', num: '#150', desc: 'Primera aparición en la línea 2024', rarity: 'rare', value: 9, pop: 77, hue: 240 },
+      { id: 'i7', name: 'Ford GT40', num: '#167', desc: 'Serie Racing, librea Gulf azul y naranja', rarity: 'epic', value: 14, pop: 85, hue: 195 }
+    ];
+    const ownedMap = this.state.owned;
+    const f = this.state.filter;
+    let list = catalog.slice();
+    if (f === 'mios') list = list.filter(c => ownedMap[c.id]);
+    else if (f === 'faltan') list = list.filter(c => !ownedMap[c.id]);
+    else if (f === 'populares') list = list.sort((a, b) => b.pop - a.pop);
+    else if (f === 'valiosos') list = list.sort((a, b) => b.value - a.value);
+
+    const items = list.map(c => {
+      const isOwned = !!ownedMap[c.id];
+      return {
+        id: c.id, name: c.name, num: c.num, desc: c.desc,
+        rarity: RL[c.rarity], rarityColor: RC[c.rarity], rarityBg: RB[c.rarity],
+        valueLabel: '€' + c.value,
+        coverBg: 'linear-gradient(150deg, oklch(0.7 0.16 ' + c.hue + '), oklch(0.53 0.15 ' + (c.hue + 40) + '))',
+        ownBg: isOwned ? '#a970ff' : 'transparent',
+        ownBorder: isOwned ? '#a970ff' : '#3a3948',
+        ownCheck: isOwned ? '#141118' : '#3a3948',
+        toggleOwned: () => {
+          const o = Object.assign({}, this.state.owned);
+          if (o[c.id]) { delete o[c.id]; } else { o[c.id] = true; }
+          this.setState({ owned: o });
+        }
+      };
+    });
+
+    const ownedCount = catalog.filter(c => ownedMap[c.id]).length;
+    const setValue = catalog.filter(c => ownedMap[c.id]).reduce((s, c) => s + c.value, 0);
+    const on = { bg: '#a970ff', fg: '#141118', border: '#a970ff' };
+    const off = { bg: '#1c1b24', fg: '#a3a1b0', border: '#2b2937' };
+    const mk = (key, label) => ({
+      label: label,
+      bg: f === key ? on.bg : off.bg, fg: f === key ? on.fg : off.fg, border: f === key ? on.border : off.border,
+      pick: () => this.setState({ filter: key })
+    });
+    return {
+      items: items,
+      countLabel: ownedCount + ' de ' + catalog.length + ' piezas',
+      setValueLabel: '€' + setValue,
+      chips: [
+        mk('todos', 'Todos'),
+        mk('mios', 'Míos'),
+        mk('faltan', 'Me faltan'),
+        mk('populares', 'Populares'),
+        mk('valiosos', 'Más valiosos')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

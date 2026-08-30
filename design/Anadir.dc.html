@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; }
+    a { color: #38e0d0; text-decoration: none; }
+    a:hover { color: #6fece0; }
+    input::placeholder, textarea::placeholder { color: #6b6a78; }
+    .scroll { scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { width: 0; height: 0; }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #141118; color: #f2f1f5; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+
+  <div style="position: absolute; top: -140px; left: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(169,112,255,0.2), transparent 70%); pointer-events: none;"></div>
+
+  <div style="padding: 20px 20px 14px; position: relative; z-index: 1; display: flex; align-items: center; gap: 12px;">
+    <button style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: #1c1b24; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f2f1f5" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+    <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px;">Añadir objeto</div>
+  </div>
+
+  <div class="scroll" style="flex: 1; overflow-y: auto; padding: 4px 20px 24px; position: relative; z-index: 1;">
+
+    <div style="font-size: 11px; font-weight: 700; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.05em;">Colección</div>
+    <button onClick="{{cycleCol}}" style="width: 100%; margin-top: 8px; display: flex; align-items: center; gap: 12px; background: #1a1922; border: 1px solid #262530; border-radius: 14px; padding: 12px; cursor: pointer; text-align: left;">
+      <div style="width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0; background: {{colBg}}; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.92)"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{colName}}</div>
+        <div style="font-size: 11.5px; color: #a3a1b0; margin-top: 1px;">Toca para cambiar de colección</div>
+      </div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8896" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"></path></svg>
+    </button>
+
+    <sc-if value="{{showCatalog}}" hint-placeholder-val="{{true}}">
+      <div>
+        <div style="font-size: 11px; font-weight: 700; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 22px;">Busca el objeto en el catálogo</div>
+        <div style="display: flex; align-items: center; gap: 10px; height: 46px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 13px; padding: 0 14px; margin-top: 8px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a3a1b0" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+          <input placeholder="Nombre o número de la pieza" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px;" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+          <sc-for list="{{results}}" as="r" hint-placeholder-count="3">
+            <button onClick="{{r.pick}}" style="display: flex; align-items: center; gap: 12px; background: {{r.rowBg}}; border: 1px solid {{r.rowBorder}}; border-radius: 13px; padding: 10px; cursor: pointer; text-align: left; width: 100%;">
+              <div style="width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; background: {{r.thumbBg}}; display: flex; align-items: center; justify-content: center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg>
+              </div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.name}}</div>
+                <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
+                  <span style="font-size: 10px; color: #6b6a78;">{{r.num}}</span>
+                  <span style="font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 2px 6px; border-radius: 5px; color: {{r.rarityColor}}; background: {{r.rarityBg}};">{{r.rarity}}</span>
+                </div>
+              </div>
+              <span style="flex-shrink: 0; font-size: 12px; font-weight: 700; color: {{r.tagColor}}; display: flex; align-items: center; gap: 4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{r.tagColor}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{r.tagIcon}}"></path></svg>
+                {{r.tagLabel}}
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <label style="display: flex; align-items: center; gap: 12px; background: #1a1922; border: 1px solid {{nfBorder}}; border-radius: 14px; padding: 13px; margin-top: 22px; cursor: pointer;">
+      <span onClick="{{toggleNF}}" style="width: 22px; height: 22px; border-radius: 7px; border: 2px solid {{nfBoxBorder}}; background: {{nfBoxBg}}; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#141118" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="opacity: {{nfCheck}};"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
+      </span>
+      <span onClick="{{toggleNF}}" style="flex: 1;">
+        <span style="display: block; font-size: 13.5px; font-weight: 700;">No encuentro este objeto</span>
+        <span style="display: block; font-size: 11.5px; color: #a3a1b0; margin-top: 2px;">Créalo a mano y lo revisarán los administradores</span>
+      </span>
+    </label>
+
+    <sc-if value="{{notFound}}" hint-placeholder-val="{{false}}">
+      <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <div style="font-size: 12px; font-weight: 600; color: #c9c7d4; margin-bottom: 6px;">Nombre del objeto</div>
+          <input placeholder="Ej. Nissan Skyline GT-R (R34)" style="width: 100%; height: 44px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 0 13px; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: 0;" />
+        </div>
+        <div>
+          <div style="font-size: 12px; font-weight: 600; color: #c9c7d4; margin-bottom: 6px;">Descripción</div>
+          <textarea placeholder="Acabado, serie, detalles que la hacen especial…" rows="3" style="width: 100%; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 11px 13px; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: 0; resize: none;"></textarea>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <div style="flex: 1;">
+            <div style="font-size: 12px; font-weight: 600; color: #c9c7d4; margin-bottom: 6px;">Adquisición</div>
+            <input placeholder="30 / 08 / 2026" style="width: 100%; height: 44px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 0 13px; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: 0;" />
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 12px; font-weight: 600; color: #c9c7d4; margin-bottom: 6px;">Valor estimado</div>
+            <div style="display: flex; align-items: center; height: 44px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 0 13px;">
+              <span style="color: #6b6a78; font-size: 14px; font-weight: 700;">€</span>
+              <input placeholder="0" style="flex: 1; min-width: 0; margin-left: 6px; background: transparent; border: 0; outline: 0; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px;" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 12px; font-weight: 600; color: #c9c7d4; margin-bottom: 6px;">Foto</div>
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 108px; border: 1.6px dashed #3a3948; border-radius: 14px; color: #8a8896;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8a8896" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.4"></rect><circle cx="9" cy="10.5" r="1.8"></circle><path d="M4 18l5-5 4 3 3-3 4 4"></path></svg>
+            <span style="font-size: 12px; font-weight: 600;">Añade una foto de tu pieza</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="font-size: 11px; font-weight: 700; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 22px;">¿En qué lista va?</div>
+    <div style="display: flex; gap: 4px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 4px; margin-top: 8px;">
+      <button onClick="{{setHave}}" style="flex: 1; height: 38px; border: 0; border-radius: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; background: {{haveBg}}; color: {{haveFg}};">Ya lo tengo</button>
+      <button onClick="{{setWant}}" style="flex: 1; height: 38px; border: 0; border-radius: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; background: {{wantBg}}; color: {{wantFg}};">Lo quiero</button>
+    </div>
+
+    <button style="width: 100%; height: 50px; margin-top: 22px; border-radius: 14px; border: 0; background: #a970ff; color: #141118; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14.5px; cursor: pointer;">{{saveLabel}}</button>
+    <div style="text-align: center; font-size: 11px; color: #6b6a78; margin-top: 10px;">{{helperText}}</div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { notFound: false, linked: 'r1', have: 'tengo', col: 0 };
+  }
+  renderVals() {
+    const RC = { common: '#8b8a9c', rare: '#38c6e0', epic: '#a970ff', legendary: '#ffc857' };
+    const RB = { common: 'rgba(139,138,156,0.16)', rare: 'rgba(56,198,224,0.16)', epic: 'rgba(169,112,255,0.16)', legendary: 'rgba(255,200,87,0.16)' };
+    const RL = { common: 'Común', rare: 'Rara', epic: 'Épica', legendary: 'Legendaria' };
+    const cols = [
+      { name: 'Hot Wheels Mainline 2024', hue: 275 },
+      { name: 'Pokémon 151', hue: 190 },
+      { name: 'Beyblade X', hue: 45 }
+    ];
+    const col = cols[this.state.col % cols.length];
+    const raw = [
+      { id: 'r1', name: 'Nissan Skyline GT-R (R34)', num: '#045', rarity: 'legendary', hue: 210 },
+      { id: 'r2', name: 'Toyota Supra MK4', num: '#061', rarity: 'rare', hue: 30 },
+      { id: 'r3', name: 'Honda Civic EG6', num: '#088', rarity: 'common', hue: 150 }
+    ];
+    const linked = this.state.linked;
+    const results = raw.map(r => {
+      const sel = linked === r.id;
+      return {
+        name: r.name, num: r.num, rarity: RL[r.rarity],
+        rarityColor: RC[r.rarity], rarityBg: RB[r.rarity],
+        thumbBg: 'linear-gradient(150deg, oklch(0.7 0.16 ' + r.hue + '), oklch(0.52 0.15 ' + (r.hue + 40) + '))',
+        rowBg: sel ? 'rgba(169,112,255,0.12)' : '#1a1922',
+        rowBorder: sel ? '#a970ff' : '#262530',
+        tagColor: sel ? '#a970ff' : '#8a8896',
+        tagLabel: sel ? 'Vinculado' : 'Vincular',
+        tagIcon: sel ? 'M5 12.5l4.5 4.5L19 7' : 'M12 5v14M5 12h14',
+        pick: () => this.setState({ linked: r.id })
+      };
+    });
+    const nf = this.state.notFound;
+    const have = this.state.have;
+    const on = { bg: '#a970ff', fg: '#141118' };
+    const off = { bg: 'transparent', fg: '#a3a1b0' };
+    return {
+      results: results,
+      showCatalog: !nf,
+      notFound: nf,
+      toggleNF: () => this.setState({ notFound: !this.state.notFound }),
+      nfBorder: nf ? '#a970ff' : '#262530',
+      nfBoxBorder: nf ? '#a970ff' : '#3a3948',
+      nfBoxBg: nf ? '#a970ff' : 'transparent',
+      nfCheck: nf ? '1' : '0',
+      colName: col.name,
+      colBg: 'linear-gradient(150deg, oklch(0.72 0.17 ' + col.hue + '), oklch(0.55 0.16 ' + (col.hue + 45) + '))',
+      cycleCol: () => this.setState({ col: this.state.col + 1 }),
+      setHave: () => this.setState({ have: 'tengo' }),
+      setWant: () => this.setState({ have: 'quiero' }),
+      haveBg: have === 'tengo' ? on.bg : off.bg, haveFg: have === 'tengo' ? on.fg : off.fg,
+      wantBg: have === 'quiero' ? on.bg : off.bg, wantFg: have === 'quiero' ? on.fg : off.fg,
+      saveLabel: have === 'tengo' ? 'Guardar en mi colección' : 'Guardar en mi lista de deseos',
+      helperText: (nf ? 'Objeto nuevo' : 'Objeto del catálogo') + ' · ' + col.name
+    };
+  }
+}
+</script>
+</body>
+</html>

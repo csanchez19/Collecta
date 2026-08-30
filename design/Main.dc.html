@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; }
+    a { color: #38e0d0; text-decoration: none; }
+    a:hover { color: #6fece0; }
+    input::placeholder { color: #6b6a78; }
+    .scroll { scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { width: 0; height: 0; }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #141118; color: #f2f1f5; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+
+  <div style="position: absolute; top: -140px; left: -90px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(169,112,255,0.22), transparent 70%); pointer-events: none;"></div>
+  <div style="position: absolute; bottom: 30px; right: -120px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(56,224,208,0.13), transparent 70%); pointer-events: none;"></div>
+
+  <div style="padding: 22px 20px 12px; position: relative; z-index: 1;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+      <div>
+        <div style="font-size: 12px; color: #a3a1b0; letter-spacing: 0.03em;">Tu vitrina</div>
+        <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; margin-top: 3px;">Colecciones</div>
+      </div>
+      <div style="width: 40px; height: 40px; border-radius: 13px; background: linear-gradient(145deg, #a970ff, #38e0d0); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: #141118;">D</div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px; height: 48px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 14px; padding: 0 14px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a3a1b0" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+      <input placeholder="Busca colecciones o temáticas" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: #f2f1f5; font-family: 'Space Grotesk', sans-serif; font-size: 14px;" />
+    </div>
+
+    <div style="display: flex; gap: 4px; background: #1c1b24; border: 1px solid #2b2937; border-radius: 12px; padding: 4px; margin-top: 12px;">
+      <button onClick="{{tabMias}}" style="flex: 1; height: 36px; border: 0; border-radius: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12.5px; cursor: pointer; background: {{miasBg}}; color: {{miasFg}};">Mías</button>
+      <button onClick="{{tabPop}}" style="flex: 1; height: 36px; border: 0; border-radius: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12.5px; cursor: pointer; background: {{popBg}}; color: {{popFg}};">Populares</button>
+      <button onClick="{{tabSug}}" style="flex: 1; height: 36px; border: 0; border-radius: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12.5px; cursor: pointer; background: {{sugBg}}; color: {{sugFg}};">Sugeridas</button>
+    </div>
+  </div>
+
+  <div class="scroll" style="flex: 1; overflow-y: auto; padding: 14px 20px 26px; position: relative; z-index: 1;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <sc-for list="{{items}}" as="item" hint-placeholder-count="4">
+        <div style="display: flex; gap: 12px; align-items: center; background: #1a1922; border: 1px solid #262530; border-radius: 18px; padding: 12px;">
+          <div style="width: 70px; height: 70px; border-radius: 15px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: {{item.coverBg}}; box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);">
+            <sc-if value="{{item.isCar}}" hint-placeholder-val="{{true}}"><svg width="36" height="36" viewBox="0 0 24 24" fill="rgba(255,255,255,0.92)"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg></sc-if>
+            <sc-if value="{{item.isCard}}" hint-placeholder-val="{{false}}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.94)" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="3" width="12" height="18" rx="2.4"></rect><circle cx="12" cy="9" r="2.3"></circle><path d="M8.4 16.6c1-2.2 6.2-2.2 7.2 0"></path></svg></sc-if>
+            <sc-if value="{{item.isSpinner}}" hint-placeholder-val="{{false}}"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.94)" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="7.2"></circle><path d="M12 4.8l2.4 3.4L12 11 9.6 8.2z"></path><circle cx="12" cy="12" r="1.6"></circle><path d="M12 12l5.2 2.4M12 12l-5.2 2.4"></path></svg></sc-if>
+            <sc-if value="{{item.isFigure}}" hint-placeholder-val="{{false}}"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.94)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="2.7"></circle><path d="M9 21v-4.6l-2-1.1 1.1-4.1a3.9 3.9 0 0 1 7.8 0L18 15.3l-2 1.1V21"></path></svg></sc-if>
+            <sc-if value="{{item.isBrick}}" hint-placeholder-val="{{false}}"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.94)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="14" height="9.5" rx="1.4"></rect><path d="M8.5 9V7.4a1.3 1.3 0 0 1 1.3-1.3M14.2 9V7.4a1.3 1.3 0 0 1 1.3-1.3"></path></svg></sc-if>
+          </div>
+
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-weight: 700; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{item.name}}</div>
+            <div style="font-size: 11.5px; color: #a3a1b0; margin-top: 2px;">{{item.kindLabel}}</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 9px;">
+              <div style="flex: 1; height: 6px; border-radius: 3px; background: #2c2a37; overflow: hidden;">
+                <div style="height: 100%; width: {{item.pct}}%; border-radius: 3px; background: linear-gradient(90deg, #a970ff, #38e0d0);"></div>
+              </div>
+              <div style="font-size: 10.5px; color: #a3a1b0; font-weight: 600;">{{item.pctLabel}}</div>
+            </div>
+            <div style="font-size: 10.5px; color: #6b6a78; margin-top: 5px;">{{item.countLabel}} piezas</div>
+          </div>
+
+          <button onClick="{{item.toggleFav}}" style="flex-shrink: 0; width: 40px; height: 40px; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="{{item.starFill}}" stroke="{{item.starStroke}}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.24 1.03 6.01L12 17.02 6.62 19.85l1.03-6.01L3.3 9.6l6-.9z"></path></svg>
+          </button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="text-align: center; font-size: 11px; color: #4d4c58; margin-top: 20px; line-height: 1.5;">Los administradores publican nuevas temáticas cada semana</div>
+  </div>
+
+  <div style="display: flex; border-top: 1px solid #232230; background: #161520; padding: 8px 12px 12px; position: relative; z-index: 1;">
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #a970ff; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a970ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"></rect></svg>
+      Colecciones
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M15.5 8.5l-2 5-5 2 2-5z"></path></svg>
+      Explorar
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+      Añadir
+    </div>
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #6b6a78; font-size: 10px; font-weight: 600;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6a78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"></circle><path d="M5.5 20c1.2-3.4 4-5 6.5-5s5.3 1.6 6.5 5"></path></svg>
+      Perfil
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'mias', favs: { c1: true, c2: true } };
+  }
+  renderVals() {
+    const all = [
+      { id: 'c1', name: 'Hot Wheels Mainline 2024', kind: 'car', kindLabel: 'Coches a escala 1:64', owned: 34, total: 250, pop: 98, mine: true, hue: 275 },
+      { id: 'c2', name: 'Pokémon 151', kind: 'card', kindLabel: 'Cartas coleccionables', owned: 112, total: 165, pop: 99, mine: true, hue: 190 },
+      { id: 'c3', name: 'Beyblade X', kind: 'spinner', kindLabel: 'Peonzas de combate', owned: 8, total: 40, pop: 74, mine: true, hue: 45 },
+      { id: 'c4', name: 'Star Wars Black Series', kind: 'figure', kindLabel: 'Figuras de 15 cm', owned: 0, total: 90, pop: 88, mine: false, hue: 330 },
+      { id: 'c5', name: 'Funko Pop! Marvel', kind: 'figure', kindLabel: 'Figuras de vinilo', owned: 0, total: 300, pop: 82, mine: false, hue: 150 },
+      { id: 'c6', name: 'LEGO Icons', kind: 'brick', kindLabel: 'Sets de construcción', owned: 0, total: 28, pop: 69, mine: false, hue: 95 }
+    ];
+    const t = this.state.tab;
+    let list = t === 'mias' ? all.filter(c => c.mine)
+      : t === 'populares' ? all.slice().sort((a, b) => b.pop - a.pop)
+      : all.filter(c => !c.mine);
+    const favs = this.state.favs;
+    const items = list.map(c => {
+      const pct = Math.round(c.owned / c.total * 100);
+      const isFav = !!favs[c.id];
+      return {
+        id: c.id, name: c.name, kindLabel: c.kindLabel,
+        pct: pct, pctLabel: pct + '%',
+        countLabel: c.owned + ' / ' + c.total,
+        coverBg: 'linear-gradient(150deg, oklch(0.72 0.17 ' + c.hue + '), oklch(0.55 0.16 ' + (c.hue + 45) + '))',
+        isCar: c.kind === 'car', isCard: c.kind === 'card', isSpinner: c.kind === 'spinner',
+        isFigure: c.kind === 'figure', isBrick: c.kind === 'brick',
+        starFill: isFav ? '#ffc857' : 'none',
+        starStroke: isFav ? '#ffc857' : '#6b6a78',
+        toggleFav: () => {
+          const f = Object.assign({}, this.state.favs);
+          if (f[c.id]) { delete f[c.id]; } else { f[c.id] = true; }
+          this.setState({ favs: f });
+        }
+      };
+    });
+    const on = { bg: '#a970ff', fg: '#141118' };
+    const off = { bg: 'transparent', fg: '#a3a1b0' };
+    return {
+      items: items,
+      tabMias: () => this.setState({ tab: 'mias' }),
+      tabPop: () => this.setState({ tab: 'populares' }),
+      tabSug: () => this.setState({ tab: 'sugeridas' }),
+      miasBg: t === 'mias' ? on.bg : off.bg, miasFg: t === 'mias' ? on.fg : off.fg,
+      popBg: t === 'populares' ? on.bg : off.bg, popFg: t === 'populares' ? on.fg : off.fg,
+      sugBg: t === 'sugeridas' ? on.bg : off.bg, sugFg: t === 'sugeridas' ? on.fg : off.fg
+    };
+  }
+}
+</script>
+</body>
+</html>

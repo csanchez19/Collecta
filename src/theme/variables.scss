@@ -1,0 +1,65 @@
+// Collecta theme — dark "elegant arcade".
+// Ionic variable reference: https://ionicframework.com/docs/theming/css-variables
+
+:root {
+  // --- Base surfaces --------------------------------------------------------
+  --ion-background-color: #141118;
+  --ion-background-color-rgb: 20, 17, 24;
+  --ion-text-color: #f2f1f5;
+  --ion-text-color-rgb: 242, 241, 245;
+
+  --ion-font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ion-toolbar-background: #141118;
+  --ion-toolbar-border-color: transparent;
+  --ion-item-background: #1a1922;
+  --ion-card-background: #1a1922;
+  --ion-tab-bar-background: #161520;
+  --ion-tab-bar-border-color: #232230;
+  --ion-border-color: #262530;
+
+  // --- Brand accents (shared chroma/lightness, hue varies) ------------------
+  --ion-color-primary: #a970ff;
+  --ion-color-primary-rgb: 169, 112, 255;
+  --ion-color-primary-contrast: #141118;
+  --ion-color-primary-contrast-rgb: 20, 17, 24;
+  --ion-color-primary-shade: #9563e0;
+  --ion-color-primary-tint: #b27eff;
+
+  --ion-color-secondary: #38e0d0;
+  --ion-color-secondary-rgb: 56, 224, 208;
+  --ion-color-secondary-contrast: #0c1413;
+  --ion-color-secondary-contrast-rgb: 12, 20, 19;
+  --ion-color-secondary-shade: #31c5b7;
+  --ion-color-secondary-tint: #4ce3d5;
+
+  --ion-color-warning: #ffc857;
+  --ion-color-warning-rgb: 255, 200, 87;
+  --ion-color-warning-contrast: #141118;
+  --ion-color-warning-contrast-rgb: 20, 17, 24;
+  --ion-color-warning-shade: #e0b04d;
+  --ion-color-warning-tint: #ffce68;
+
+  --ion-color-success: #4ee6a8;
+  --ion-color-success-rgb: 78, 230, 168;
+  --ion-color-success-contrast: #0b1712;
+  --ion-color-success-contrast-rgb: 11, 23, 18;
+  --ion-color-success-shade: #45ca94;
+  --ion-color-success-tint: #60e9b1;
+
+  // --- Collecta-specific tokens (used in component styles) -----------------
+  --collecta-surface: #1a1922;
+  --collecta-surface-border: #262530;
+  --collecta-text-muted: #a3a1b0;
+  --collecta-text-faint: #6b6a78;
+
+  --collecta-rarity-common: #8b8a9c;
+  --collecta-rarity-rare: #38c6e0;
+  --collecta-rarity-epic: #a970ff;
+  --collecta-rarity-legendary: #ffc857;
+
+  --collecta-radius-md: 14px;
+  --collecta-radius-lg: 18px;
+
+  --collecta-font-display: 'Unbounded', 'Space Grotesk', system-ui, sans-serif;
+}

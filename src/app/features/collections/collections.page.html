@@ -1,0 +1,66 @@
+<ion-header class="collections-header" [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <span class="eyebrow">Tu vitrina</span>
+      <span class="screen-title collecta-display">Colecciones</span>
+    </ion-title>
+    <ion-avatar slot="end" aria-hidden="true">{{ session.initials() }}</ion-avatar>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Busca colecciones o temáticas"
+      [debounce]="200"
+      [value]="store.query()"
+      (ionInput)="onSearch($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment [value]="store.scope()" (ionChange)="onScopeChange($event)">
+      <ion-segment-button value="mias">Mías</ion-segment-button>
+      <ion-segment-button value="populares">Populares</ion-segment-button>
+      <ion-segment-button value="sugeridas">Sugeridas</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  @if (store.isLoading()) {
+    <div class="list">
+      @for (skeleton of skeletons; track $index) {
+        <div class="skeleton-card">
+          <ion-skeleton-text [animated]="true" class="skeleton-cover"></ion-skeleton-text>
+          <div class="skeleton-lines">
+            <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 40%"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 90%"></ion-skeleton-text>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (store.hasError()) {
+    <div class="state">
+      <ion-text color="medium">No hemos podido cargar las colecciones. Desliza para reintentar.</ion-text>
+    </div>
+  } @else if (store.isEmpty()) {
+    <div class="state">
+      <ion-text color="medium">Nada por aquí todavía. Prueba otra pestaña o busca una temática.</ion-text>
+    </div>
+  } @else {
+    <div class="list">
+      @for (card of cards(); track card.id) {
+        <app-collection-card
+          [vm]="card"
+          (open)="openCollection(card.id)"
+          (favoriteToggle)="onToggleFavorite(card.id)"
+        />
+      }
+    </div>
+    <p class="footnote">Los administradores publican nuevas temáticas cada semana</p>
+  }
+</ion-content>

@@ -1,0 +1,31 @@
+<div class="card" role="button" tabindex="0" (click)="open.emit()" (keyup.enter)="open.emit()">
+  <div class="cover" [style.background]="vm().accent">
+    <ion-icon [name]="kindIcon()" aria-hidden="true"></ion-icon>
+  </div>
+
+  <div class="details">
+    <h3 class="name">{{ vm().name }}</h3>
+    <p class="kind">{{ vm().kindLabel }}</p>
+
+    <div class="progress">
+      <ion-progress-bar [value]="vm().progressRatio"></ion-progress-bar>
+      <span class="percent">{{ vm().progressPercentLabel }}</span>
+    </div>
+    <p class="count">{{ vm().progressCountLabel }} piezas</p>
+  </div>
+
+  <ion-button
+    class="favorite"
+    fill="clear"
+    shape="round"
+    [attr.aria-pressed]="vm().isFavorite"
+    aria-label="Marcar como favorita"
+    (click)="onFavoriteClick($event)"
+  >
+    <ion-icon
+      slot="icon-only"
+      [name]="vm().isFavorite ? 'star' : 'star-outline'"
+      [class.is-active]="vm().isFavorite"
+    ></ion-icon>
+  </ion-button>
+</div>

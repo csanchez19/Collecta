@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "1 · Colecciones", "x": 0, "y": 0, "w": 390, "h": 844, "is_interactive": true },
+    { "file": "Objetos.dc.html", "title": "2 · Listado de objetos", "x": 470, "y": 0, "w": 390, "h": 844, "is_interactive": true },
+    { "file": "Detalle.dc.html", "title": "3 · Detalle del objeto", "x": 940, "y": 0, "w": 390, "h": 844, "is_interactive": true },
+    { "file": "Anadir.dc.html", "title": "4 · Añadir objeto", "x": 1410, "y": 0, "w": 390, "h": 844, "is_interactive": true }
+  ],
+  "annotations": [
+    { "id": "intro", "x": 0, "y": -132, "w": 560, "text": "Collecta — MVP · prototipo clickable\nEstilo: oscuro elegante con toque arcade. Tipos Unbounded + Space Grotesk, violeta / cian / oro, rareza por color.\nPrueba: cambia pestañas y filtros, marca piezas como tuyas, activa \"No encuentro este objeto\"." },
+    { "id": "future", "x": 940, "y": -132, "w": 500, "text": "Próximamente (ya insinuado en la ficha): intercambios entre coleccionistas y perfiles de tienda con stock por artículo." }
+  ],
+  "launch": { "view": "canvas" }
+}

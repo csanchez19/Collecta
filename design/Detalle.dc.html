@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; }
+    a { color: #38e0d0; text-decoration: none; }
+    a:hover { color: #6fece0; }
+    .scroll { scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { width: 0; height: 0; }
+    @keyframes sheen { 0% { transform: translateX(-120%) rotate(8deg); } 100% { transform: translateX(320%) rotate(8deg); } }
+  </style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #141118; color: #f2f1f5; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+
+  <div style="position: absolute; top: 20px; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; z-index: 5;">
+    <button style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: rgba(26,25,34,0.8); backdrop-filter: blur(6px); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2f1f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <div style="display: flex; gap: 8px;">
+      <button style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: rgba(26,25,34,0.8); backdrop-filter: blur(6px); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f2f1f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.4"></circle><circle cx="6" cy="12" r="2.4"></circle><circle cx="18" cy="19" r="2.4"></circle><path d="M8.1 10.9l7.8-4.6M8.1 13.1l7.8 4.6"></path></svg>
+      </button>
+      <button onClick="{{toggleStar}}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #2b2937; background: rgba(26,25,34,0.8); backdrop-filter: blur(6px); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="{{starFill}}" stroke="{{starStroke}}" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.24 1.03 6.01L12 17.02 6.62 19.85l1.03-6.01L3.3 9.6l6-.9z"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll" style="flex: 1; overflow-y: auto; padding-bottom: 24px;">
+
+    <div style="height: 300px; position: relative; overflow: hidden; background: {{heroBg}};">
+      <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 40%; background: linear-gradient(90deg, rgba(255,255,255,0.28), transparent); animation: sheen 4.5s ease-in-out infinite;"></div>
+      <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+        <svg width="150" height="150" viewBox="0 0 24 24" fill="rgba(255,255,255,0.95)" style="filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35));"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg>
+      </div>
+      <div style="position: absolute; top: 70px; left: 18px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #141118; background: #ffc857; padding: 4px 10px; border-radius: 7px;">Legendaria</div>
+      <div style="position: absolute; top: 70px; right: 18px; font-size: 11px; font-weight: 700; color: #f2f1f5; background: rgba(20,17,24,0.55); padding: 4px 10px; border-radius: 7px;">#045 / 250</div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(180deg, transparent, #141118);"></div>
+    </div>
+
+    <div style="padding: 4px 20px 0;">
+      <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.15; text-wrap: pretty;">Nissan Skyline GT-R (R34)</div>
+      <div style="font-size: 12.5px; color: #a3a1b0; margin-top: 6px;">Hot Wheels Mainline 2024 · Súper Treasure Hunt</div>
+
+      <div style="display: flex; gap: 8px; margin-top: 14px;">
+        <sc-for list="{{shots}}" as="shot" hint-placeholder-count="4">
+          <button onClick="{{shot.pick}}" style="width: 58px; height: 58px; border-radius: 12px; border: 2px solid {{shot.border}}; background: {{shot.bg}}; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><path d="M4 15l1.4-3.8A2.4 2.4 0 0 1 7.7 9.6h8.6a2.4 2.4 0 0 1 2.3 1.6L20 15h.5a1 1 0 0 1 1 1v1.6a.9.9 0 0 1-.9.9H19a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3.4a.9.9 0 0 1-.9-.9V16a1 1 0 0 1 1-1z"></path></svg>
+          </button>
+        </sc-for>
+      </div>
+
+      <button onClick="{{toggleOwned}}" style="width: 100%; height: 50px; margin-top: 16px; border-radius: 14px; border: 1.6px solid {{ctaBorder}}; background: {{ctaBg}}; color: {{ctaFg}}; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <sc-if value="{{owned}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ctaFg}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></sc-if>
+        <sc-if value="{{notOwned}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ctaFg}}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></sc-if>
+        {{ctaLabel}}
+      </button>
+
+      <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; margin-top: 24px;">Datos principales</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px;">
+        <div style="background: #1a1922; border: 1px solid #262530; border-radius: 14px; padding: 12px;">
+          <div style="font-size: 10.5px; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.04em;">Lanzamiento</div>
+          <div style="font-size: 14px; font-weight: 700; margin-top: 4px;">Marzo 2024</div>
+        </div>
+        <div style="background: #1a1922; border: 1px solid #262530; border-radius: 14px; padding: 12px;">
+          <div style="font-size: 10.5px; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.04em;">Adquisición</div>
+          <div style="font-size: 14px; font-weight: 700; margin-top: 4px; color: {{acqColor}};">{{acqLabel}}</div>
+        </div>
+        <div style="background: #1a1922; border: 1px solid #262530; border-radius: 14px; padding: 12px;">
+          <div style="font-size: 10.5px; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.04em;">Serie</div>
+          <div style="font-size: 14px; font-weight: 700; margin-top: 4px;">Mainline</div>
+        </div>
+        <div style="background: #1a1922; border: 1px solid #262530; border-radius: 14px; padding: 12px;">
+          <div style="font-size: 10.5px; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.04em;">Escala</div>
+          <div style="font-size: 14px; font-weight: 700; margin-top: 4px;">1:64</div>
+        </div>
+      </div>
+
+      <div style="background: #1a1922; border: 1px solid #262530; border-radius: 16px; padding: 15px; margin-top: 10px;">
+        <div style="display: flex; align-items: flex-end; justify-content: space-between;">
+          <div>
+            <div style="font-size: 10.5px; color: #6b6a78; text-transform: uppercase; letter-spacing: 0.04em;">Valor de mercado</div>
+            <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; margin-top: 4px;">€140</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px; color: #4ee6a8; font-size: 12px; font-weight: 700;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ee6a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l7-7 4 4 5-6"></path></svg>
+            +12% · 30 días
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 5px; height: 44px; margin-top: 12px;">
+          <div style="flex: 1; height: 46%; background: #2f2d3d; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 58%; background: #2f2d3d; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 40%; background: #2f2d3d; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 66%; background: #3a3550; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 72%; background: #3a3550; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 64%; background: #4a3f6b; border-radius: 3px;"></div>
+          <div style="flex: 1; height: 88%; background: linear-gradient(180deg, #a970ff, #7a3ff0); border-radius: 3px;"></div>
+        </div>
+      </div>
+
+      <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; margin-top: 24px;">Descripción</div>
+      <div style="font-size: 13px; line-height: 1.6; color: #c9c7d4; margin-top: 8px; text-wrap: pretty;">Súper Treasure Hunt de la serie Mainline 2024. Carrocería con pintura Spectraflame, ruedas Real Riders con goma auténtica y base metálica. Distribución limitada: aparece de forma esporádica en cajas surtidas, lo que dispara su valor entre coleccionistas.</div>
+
+      <div style="font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; margin-top: 24px; display: flex; align-items: center; gap: 7px;">
+        Próximamente
+        <span style="font-size: 9.5px; font-weight: 700; color: #a970ff; background: rgba(169,112,255,0.16); padding: 2px 7px; border-radius: 6px; letter-spacing: 0.03em;">EN CAMINO</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; border: 1px dashed #34323f; border-radius: 13px; padding: 12px; color: #8a8896;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h13l-3-3M17 16H4l3 3"></path></svg>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 700; color: #c9c7d4;">Proponer un intercambio</div>
+            <div style="font-size: 11px; margin-top: 1px;">Cambia esta pieza por otra de tu lista de deseos</div>
+          </div>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5a5866" stroke-width="2.5" stroke-linecap="round"><path d="M12 7V5m0 4a3 3 0 0 0-3 3v4h6v-4a3 3 0 0 0-3-3z"></path><rect x="6" y="12" width="12" height="8" rx="2"></rect></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; border: 1px dashed #34323f; border-radius: 13px; padding: 12px; color: #8a8896;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8896" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 0 0-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 700; color: #c9c7d4;">Ver tiendas que lo tienen</div>
+            <div style="font-size: 11px; margin-top: 1px;">Localiza esta pieza en tiendas cercanas</div>
+          </div>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5a5866" stroke-width="2.5" stroke-linecap="round"><path d="M12 7V5m0 4a3 3 0 0 0-3 3v4h6v-4a3 3 0 0 0-3-3z"></path><rect x="6" y="12" width="12" height="8" rx="2"></rect></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { owned: false, starred: true, shot: 0 };
+  }
+  renderVals() {
+    const owned = this.state.owned;
+    const starred = this.state.starred;
+    const tints = ['#6b3df0', '#2f6bd8', '#1f9d8a', '#c25a2e'];
+    const s = this.state.shot;
+    const shots = tints.map((c, idx) => ({
+      pick: () => this.setState({ shot: idx }),
+      bg: 'linear-gradient(150deg, ' + c + ', rgba(20,17,24,0.4))',
+      border: s === idx ? '#a970ff' : 'transparent'
+    }));
+    return {
+      shots: shots,
+      heroBg: 'radial-gradient(120% 90% at 30% 20%, ' + tints[s] + ', #1a1530 70%)',
+      toggleStar: () => this.setState({ starred: !this.state.starred }),
+      starFill: starred ? '#ffc857' : 'none',
+      starStroke: starred ? '#ffc857' : '#8a8896',
+      toggleOwned: () => this.setState({ owned: !this.state.owned }),
+      owned: owned,
+      notOwned: !owned,
+      ctaLabel: owned ? 'En tu colección' : 'Añadir a mi colección',
+      ctaBg: owned ? 'transparent' : '#a970ff',
+      ctaBorder: owned ? '#4ee6a8' : '#a970ff',
+      ctaFg: owned ? '#4ee6a8' : '#141118',
+      acqLabel: owned ? '30 ago 2026' : 'Sin adquirir',
+      acqColor: owned ? '#f2f1f5' : '#6b6a78'
+    };
+  }
+}
+</script>
+</body>
+</html>

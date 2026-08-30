@@ -1,0 +1,92 @@
+.collections-header {
+  ion-toolbar:first-child {
+    --min-height: 64px;
+    padding-top: 6px;
+  }
+
+  ion-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-inline: 4px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--collecta-text-muted);
+  }
+
+  .screen-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  ion-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-inline-end: 12px;
+    border-radius: 13px;
+    font-weight: 700;
+    color: var(--ion-color-primary-contrast);
+    background: linear-gradient(145deg, var(--ion-color-primary), var(--ion-color-secondary));
+  }
+
+  ion-searchbar {
+    --background: var(--collecta-surface);
+    --border-radius: 14px;
+    --box-shadow: none;
+    padding-inline: 12px;
+  }
+
+  ion-segment {
+    padding: 4px 12px 8px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 8px;
+}
+
+.footnote {
+  margin: 8px 16px 24px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--collecta-text-faint);
+}
+
+.state {
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.skeleton-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--collecta-surface-border);
+  border-radius: var(--collecta-radius-lg);
+  background: var(--collecta-surface);
+}
+
+.skeleton-cover {
+  width: 70px;
+  height: 70px;
+  border-radius: 15px;
+}
+
+.skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 6px;
+}
