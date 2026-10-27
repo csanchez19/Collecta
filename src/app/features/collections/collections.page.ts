@@ -68,7 +68,7 @@ export class CollectionsPage {
   }
 
   protected onToggleFavorite(id: string): void {
-    this.session.toggleFavoriteCollection(id);
+    void this.session.toggleFavoriteCollection(id);
   }
 
   protected openCollection(id: string): void {

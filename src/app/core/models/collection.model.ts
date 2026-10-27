@@ -20,4 +20,6 @@ export interface Collection {
   readonly mine: boolean;
   /** OKLCH hue (0–360) that drives the card's accent gradient. */
   readonly accentHue: number;
+  /** Favourite state when fetched; the live value lives in `SessionStore`. */
+  readonly isFavorite: boolean;
 }

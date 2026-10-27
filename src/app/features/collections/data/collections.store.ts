@@ -1,5 +1,6 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
 
+import { AuthStore } from '../../../core/auth/auth.store';
 import { CollectionsRepository } from '../../../core/data/collections.repository';
 import { Collection } from '../../../core/models/collection.model';
 import { CollectionScope } from '../../../core/models/collection-scope';
@@ -19,6 +20,7 @@ type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
 export class CollectionsStore {
   private readonly repository = inject(CollectionsRepository);
   private readonly session = inject(SessionStore);
+  private readonly auth = inject(AuthStore);
 
   private readonly _all = signal<readonly Collection[]>([]);
   private readonly _status = signal<LoadStatus>('idle');
@@ -46,14 +48,24 @@ export class CollectionsStore {
       : filtered;
   });
 
-  readonly isLoading = computed(() => this._status() === 'loading');
+  readonly isLoading = computed(() => this._status() === 'loading' || this._status() === 'idle');
   readonly isEmpty = computed(
     () => this._status() === 'ready' && this.visibleCollections().length === 0,
   );
   readonly hasError = computed(() => this._status() === 'error');
 
   constructor() {
-    void this.load();
+    // Owned counts and favourites are per user: start over whenever the account changes.
+    effect(() => {
+      const userId = this.auth.userId();
+      untracked(() => {
+        this._all.set([]);
+        this._status.set('idle');
+        if (userId) {
+          void this.load();
+        }
+      });
+    });
   }
 
   setQuery(value: string): void {
@@ -74,11 +86,19 @@ export class CollectionsStore {
       return;
     }
     this._status.set('loading');
+    const userId = this.auth.userId();
     try {
-      this._all.set(await this.repository.list());
+      const collections = await this.repository.list();
+      if (this.auth.userId() !== userId) {
+        return; // Signed out or switched account mid-request: the effect already restarted.
+      }
+      this._all.set(collections);
+      this.session.replaceFavorites(collections.filter((c) => c.isFavorite).map((c) => c.id));
       this._status.set('ready');
     } catch {
-      this._status.set('error');
+      if (this.auth.userId() === userId) {
+        this._status.set('error');
+      }
     }
   }
 

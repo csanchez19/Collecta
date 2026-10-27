@@ -1,0 +1,64 @@
+<ion-content [fullscreen]="true">
+  <main class="login">
+    <header class="brand">
+      <h1 class="collecta-display">Collecta</h1>
+      <p>Tu vitrina de colecciones, siempre a mano.</p>
+    </header>
+
+    <ion-segment [value]="mode()" (ionChange)="onModeChange($event)">
+      <ion-segment-button value="login">Entrar</ion-segment-button>
+      <ion-segment-button value="register">Crear cuenta</ion-segment-button>
+    </ion-segment>
+
+    <form class="fields" (submit)="submit($event)" novalidate>
+      @if (mode() === 'register') {
+        <ion-input
+          id="displayName"
+          label="Nombre"
+          labelPlacement="stacked"
+          autocomplete="nickname"
+          [maxlength]="50"
+          [value]="displayName()"
+          (ionInput)="displayName.set($event.detail.value ?? '')"
+        ></ion-input>
+      }
+
+      <ion-input
+        id="email"
+        label="Email"
+        labelPlacement="stacked"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        [value]="email()"
+        (ionInput)="email.set($event.detail.value ?? '')"
+      ></ion-input>
+
+      <ion-input
+        id="password"
+        label="Contraseña"
+        labelPlacement="stacked"
+        type="password"
+        [autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'"
+        [maxlength]="64"
+        [helperText]="mode() === 'register' ? 'Mínimo ' + minPasswordLength + ' caracteres' : ''"
+        [value]="password()"
+        (ionInput)="password.set($event.detail.value ?? '')"
+      ></ion-input>
+
+      @if (error(); as message) {
+        <ion-text color="danger" role="alert">
+          <p class="error">{{ message }}</p>
+        </ion-text>
+      }
+
+      <ion-button type="submit" expand="block" [disabled]="!canSubmit()">
+        @if (submitting()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else {
+          {{ mode() === 'login' ? 'Entrar' : 'Crear cuenta' }}
+        }
+      </ion-button>
+    </form>
+  </main>
+</ion-content>
