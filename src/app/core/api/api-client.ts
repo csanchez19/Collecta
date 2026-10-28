@@ -13,6 +13,18 @@ export class ApiClient {
     return this.send<T>('GET', path);
   }
 
+  /** GET that resolves to `undefined` on 404 ("no such set / item") instead of throwing. */
+  async getOptional<T>(path: string): Promise<T | undefined> {
+    try {
+      return await this.get<T>(path);
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 404) {
+        return undefined;
+      }
+      throw error;
+    }
+  }
+
   post<T>(path: string, body?: unknown): Promise<T> {
     return this.send<T>('POST', path, body);
   }

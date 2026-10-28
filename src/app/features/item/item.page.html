@@ -64,7 +64,13 @@
         (decrement)="removeCopy()"
       />
 
-      <app-price-panel [price]="price()" [chart]="chart()" [range]="store.range()" (rangeChange)="setRange($event)" />
+      <app-price-panel
+        [price]="price()"
+        [chart]="chart()"
+        [historyLoading]="store.history.isFirstLoad()"
+        [range]="store.range()"
+        (rangeChange)="setRange($event)"
+      />
 
       @if (item.attributes.length > 0) {
         <section class="attributes" aria-label="Datos de la pieza">

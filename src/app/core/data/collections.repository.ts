@@ -2,8 +2,8 @@ import { Collection } from '../models/collection.model';
 
 /**
  * Boundary for collection data. Components and stores depend on this
- * abstraction only (DIP); the concrete source (HTTP against Collecta.API, or the
- * in-memory mock) is bound in `core.providers.ts`.
+ * abstraction only (DIP); the concrete source (HTTP against Collecta.API) is
+ * bound in `core.providers.ts`.
  */
 export abstract class CollectionsRepository {
   abstract list(): Promise<readonly Collection[]>;

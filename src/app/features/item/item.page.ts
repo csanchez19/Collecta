@@ -67,13 +67,14 @@ export class ItemPage implements ViewWillEnter {
     if (!item || item.marketValueCents === null) {
       return null;
     }
-    const change = item.priceChangePct ?? 0;
-    const trend = change < 0 ? 'down' : 'up';
+    const change = item.priceChangePct;
+    const trend = change !== null && change < 0 ? 'down' : 'up';
     return {
       value: formatEuros(item.marketValueCents, true),
-      change: formatPct(change),
+      change: change === null ? null : formatPct(change),
       trend,
-      changeLabel: `${trend === 'down' ? 'Ha bajado' : 'Ha subido'} un ${formatPct(change)} en 30 días`,
+      changeLabel:
+        change === null ? '' : `${trend === 'down' ? 'Ha bajado' : 'Ha subido'} un ${formatPct(change)} en 30 días`,
     };
   });
 
