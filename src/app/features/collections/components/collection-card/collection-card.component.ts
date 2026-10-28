@@ -11,17 +11,9 @@ import {
   starOutline,
 } from 'ionicons/icons';
 
-import { CollectionKind } from '../../../../core/models/collection.model';
+import { KIND_ICON } from '../../../../shared/collection-kind';
 import { SegmentBarComponent } from '../../../../shared/ui/segment-bar/segment-bar.component';
 import { CollectionCardVm } from '../../models/collection-card.vm';
-
-const KIND_ICON: Record<CollectionKind, string> = {
-  car: 'car-sport-outline',
-  card: 'albums-outline',
-  spinner: 'disc-outline',
-  figure: 'person-outline',
-  brick: 'cube-outline',
-};
 
 /** Pure presentational card. Emits intent; never navigates or mutates state. */
 @Component({

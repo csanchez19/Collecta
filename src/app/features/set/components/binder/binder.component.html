@@ -5,7 +5,7 @@
       type="button"
       aria-label="Página anterior"
       [disabled]="page() === 0"
-      (click)="previous.emit()"
+      (click)="turnPrevious()"
     >
       <ion-icon name="chevron-back" aria-hidden="true"></ion-icon>
     </button>
@@ -22,7 +22,7 @@
       type="button"
       aria-label="Página siguiente"
       [disabled]="page() >= pageCount() - 1"
-      (click)="next.emit()"
+      (click)="turnNext()"
     >
       <ion-icon name="chevron-forward" aria-hidden="true"></ion-icon>
     </button>
@@ -31,23 +31,26 @@
   @if (slots().length === 0) {
     <p class="empty">No hay piezas con este filtro.</p>
   } @else {
-    <div class="grid">
-      @for (slot of slots(); track slot.id) {
-        <button class="slot" type="button" [attr.aria-label]="slot.ariaLabel" (click)="open.emit(slot.id)">
-          <app-item-thumb
-            variant="slot"
-            [hue]="slot.hue"
-            [imageUrl]="slot.imageUrl"
-            [state]="slot.state"
-            [code]="slot.code"
-            [copies]="slot.copies"
-          />
-          <span class="caption" aria-hidden="true">
-            <span class="name" [class.dim]="slot.state !== 'owned'">{{ slot.name }}</span>
-            <span class="code num">{{ slot.code }}</span>
-          </span>
-        </button>
-      }
-    </div>
+    <!-- Keyed by page: each turn creates a fresh grid, which plays the enter animation. -->
+    @for (current of [page()]; track current) {
+      <div class="grid" [animate.enter]="enterClass()">
+        @for (slot of slots(); track slot.id) {
+          <button class="slot" type="button" [attr.aria-label]="slot.ariaLabel" (click)="open.emit(slot.id)">
+            <app-item-thumb
+              variant="slot"
+              [hue]="slot.hue"
+              [imageUrl]="slot.imageUrl"
+              [state]="slot.state"
+              [code]="slot.code"
+              [copies]="slot.copies"
+            />
+            <span class="caption" aria-hidden="true">
+              <span class="name" [class.dim]="slot.state !== 'owned'">{{ slot.name }}</span>
+              <span class="code num">{{ slot.code }}</span>
+            </span>
+          </button>
+        }
+      </div>
+    }
   }
 </section>

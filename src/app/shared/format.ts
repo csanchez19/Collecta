@@ -8,6 +8,19 @@ export function formatEuros(cents: number, withDecimals = false): string {
   return decimals ? `${grouped},${decimals} €` : `${grouped} €`;
 }
 
+/** 23770 → "23.770". Groups thousands even for four digits, like `formatEuros`. */
+export function formatNumber(value: number): string {
+  return String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+/** "2025-07-18" → "jul 2025": release month of a set. */
+export function formatMonth(isoDate: string): string {
+  return new Intl.DateTimeFormat('es-ES', { month: 'short', year: 'numeric' })
+    .format(new Date(`${isoDate}T00:00:00`))
+    .replace('.', '')
+    .replace(' de ', ' ');
+}
+
 /** 28 with width 3 → "028": the card-number look used for every count. */
 export function padCount(value: number, width: number): string {
   return String(value).padStart(width, '0');

@@ -22,6 +22,18 @@ img {
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+  opacity: 0;
+  transition: opacity 220ms ease-out;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img {
+    transition: none;
+  }
 }
 
 .sil-head {
@@ -56,19 +68,27 @@ img {
   }
 }
 
-// Not owned, shown as a card (carousels, related items).
-.as-card.is-missing {
+// Not owned: the image stays visible but greyed out, so the set reads at a glance.
+.is-missing img {
+  filter: grayscale(0.85) brightness(0.6);
+}
+
+.is-missing.has-image {
+  border-style: dashed;
+}
+
+.as-card.is-missing:not(.has-image) {
   opacity: 0.45;
   border-style: dashed;
 }
 
-.as-card.is-wished {
+.is-wished {
   border: 1.5px solid rgba(184, 168, 236, 0.6);
 }
 
-// Not owned, shown as an empty album pocket.
-.as-slot.is-missing,
-.as-slot.is-wished {
+// Not owned and no image: an empty album pocket showing its number.
+.as-slot.is-missing:not(.has-image),
+.as-slot.is-wished:not(.has-image) {
   align-items: center;
   justify-content: center;
   background: var(--ion-background-color);

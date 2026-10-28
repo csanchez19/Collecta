@@ -27,7 +27,8 @@ Before starting a task, check the current branch and propose the right one.
 
 ```bash
 npm start                       # ng serve — dev server at http://localhost:4200
-npm run start:local             # ng serve -c=local — API on this machine (http://localhost:5215)
+npm run start:local             # ng serve -c=local — API on this machine, proxied (proxy.local.json)
+npm run start:mobile            # same, listening on the LAN: open http://<this-pc-ip>:4200 on a phone
 npm run build                   # production build to www/ (enforces bundle budgets)
 npm run build -- --configuration development   # fast unminified build
 npm test                        # vitest (jsdom) via @angular/build:unit-test, watch mode
@@ -123,8 +124,12 @@ tabs (colecciones / explorar / deseos / perfil). Deep routes stay inside the
 colecciones tab stack so the back button works:
 `colecciones/:collectionId` (sets), `colecciones/:collectionId/set/:setId`
 (album) and `colecciones/:collectionId/objeto/:itemId` (item). Route params
-reach pages as inputs via `withComponentInputBinding()`. Explorar is still the
-reusable `shared/pages/placeholder` page parametrised by route `data`.
+reach pages as inputs via `withComponentInputBinding()`. Explorar
+(`features/explore`) is the whole catalog: kind chips (only kinds that exist),
+search, sort and the featured collection (most collected) with its latest
+sets; it reuses `CollectionsStore`'s catalog fetch. Opening a collection from
+Explorar navigates into the colecciones stack. `shared/pages/placeholder`
+remains for future unbuilt screens.
 
 **Theming.** Single dark theme, champagne gold with a restrained gaming edge
 (design: the "Collecta rediseño" canvas). Colours carry meaning everywhere:

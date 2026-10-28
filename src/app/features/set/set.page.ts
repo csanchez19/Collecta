@@ -16,7 +16,7 @@ import { PageBannerComponent } from '../../shared/ui/page-banner/page-banner.com
 import { SegmentBarComponent } from '../../shared/ui/segment-bar/segment-bar.component';
 import { StatTile, StatTilesComponent } from '../../shared/ui/stat-tiles/stat-tiles.component';
 import { BinderComponent } from './components/binder/binder.component';
-import { ITEM_FILTERS, ItemFilter, milestones, nextMilestone } from './data/set-binder';
+import { ITEM_FILTERS, ItemFilter, itemsOnPage, milestones, nextMilestone } from './data/set-binder';
 import { SetDetailStore } from './data/set-detail.store';
 import { BinderSlotVm } from './models/binder-slot.vm';
 
@@ -139,6 +139,20 @@ export class SetPage implements ViewWillEnter {
       const collectionId = this.collectionId();
       const setId = this.setId();
       untracked(() => void this.store.load(collectionId, setId));
+    });
+
+    // Warm the browser cache with the neighbouring pages' images, so a page turn shows them at once.
+    effect(() => {
+      const page = this.store.page();
+      const items = this.store.filtered();
+      untracked(() => {
+        for (const item of [...itemsOnPage(items, page - 1), ...itemsOnPage(items, page + 1)]) {
+          const url = item.thumbnailUrl ?? item.imageUrl;
+          if (url) {
+            new Image().src = url;
+          }
+        }
+      });
     });
   }
 

@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.row {
+  --cut: 14px;
+  position: relative;
+  background: var(--collecta-surface);
+}
+
+.open {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tile {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  overflow: hidden;
+  font-size: 28px;
+}
+
+.ghost {
+  position: absolute;
+  left: -4px;
+  bottom: -14px;
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.16;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 44px 12px 14px;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--collecta-text-muted);
+}
+
+.popularity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--collecta-text-muted);
+  white-space: nowrap;
+  --bar-height: 6px;
+
+  app-segment-bar {
+    flex: 1;
+  }
+}
+
+.owned {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  background: var(--collecta-gold-soft);
+  color: var(--collecta-gold);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.favorite {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--collecta-gold);
+  font-size: 17px;
+  cursor: pointer;
+}

@@ -93,7 +93,8 @@
               "buildTarget": "app:build:development"
             },
             "local": {
-              "buildTarget": "app:build:local"
+              "buildTarget": "app:build:local",
+              "proxyConfig": "proxy.local.json"
             },
             "ci": {
               "progress": false

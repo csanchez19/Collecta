@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { PlaceholderPage } from '../shared/pages/placeholder/placeholder.page';
 import { TabsPage } from './tabs.page';
 
 export const routes: Routes = [
@@ -29,8 +28,7 @@ export const routes: Routes = [
       },
       {
         path: 'explorar',
-        component: PlaceholderPage,
-        data: { title: 'Explorar', message: 'Descubre colecciones y piezas del catálogo. En construcción.' },
+        loadComponent: () => import('../features/explore/explore.page').then((m) => m.ExplorePage),
       },
       {
         path: 'deseos',

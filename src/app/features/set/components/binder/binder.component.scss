@@ -69,6 +69,36 @@
   gap: 12px 8px;
 }
 
+// Page turn: the new page slides in from the side you are turning towards.
+.turn-next {
+  animation: page-in-next 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.turn-previous {
+  animation: page-in-previous 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes page-in-next {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+
+@keyframes page-in-previous {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turn-next,
+  .turn-previous {
+    animation: none;
+  }
+}
+
 .slot {
   display: flex;
   flex-direction: column;

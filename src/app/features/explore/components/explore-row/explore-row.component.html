@@ -1,0 +1,33 @@
+<article class="row chamfer" [style.--hue]="vm().hue">
+  <button class="open" type="button" (click)="open.emit()">
+    <span class="tile tone-bg stripes tone-fg" aria-hidden="true">
+      <span class="ghost num">{{ vm().ghost }}</span>
+      <ion-icon [name]="kindIcon()"></ion-icon>
+    </span>
+
+    <span class="body">
+      <span class="name num">{{ vm().name }}</span>
+      <span class="meta">{{ vm().meta }}</span>
+      <span class="popularity">
+        <app-segment-bar [ratio]="vm().popularityRatio" [segments]="12" />
+        <span>{{ vm().popularityLabel }}</span>
+      </span>
+      @if (vm().ownedLabel; as owned) {
+        <span class="owned">
+          <ion-icon name="checkmark" aria-hidden="true"></ion-icon>
+          {{ owned }}
+        </span>
+      }
+    </span>
+  </button>
+
+  <button
+    class="favorite"
+    type="button"
+    [attr.aria-pressed]="vm().isFavorite"
+    [attr.aria-label]="vm().isFavorite ? 'Quitar ' + vm().name + ' de favoritas' : 'Marcar ' + vm().name + ' como favorita'"
+    (click)="favoriteToggle.emit()"
+  >
+    <ion-icon [name]="vm().isFavorite ? 'star' : 'star-outline'" aria-hidden="true"></ion-icon>
+  </button>
+</article>

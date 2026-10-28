@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { chevronBack, chevronForward } from 'ionicons/icons';
@@ -26,6 +26,13 @@ export class BinderComponent {
   readonly next = output<void>();
   readonly open = output<string>();
 
+  /** Which way the last page turn went, so the new page slides in from that side. */
+  private readonly direction = signal<'next' | 'previous' | null>(null);
+  protected readonly enterClass = computed(() => {
+    const direction = this.direction();
+    return direction ? `turn-${direction}` : 'turn-none';
+  });
+
   protected readonly pageLabel = computed(() => `Página ${this.page() + 1} de ${this.pageCount()}`);
 
   protected readonly dots = computed(() => {
@@ -37,5 +44,15 @@ export class BinderComponent {
 
   constructor() {
     addIcons({ chevronBack, chevronForward });
+  }
+
+  protected turnPrevious(): void {
+    this.direction.set('previous');
+    this.previous.emit();
+  }
+
+  protected turnNext(): void {
+    this.direction.set('next');
+    this.next.emit();
   }
 }

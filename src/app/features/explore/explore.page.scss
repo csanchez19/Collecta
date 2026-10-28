@@ -1,0 +1,130 @@
+.page {
+  gap: 22px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--collecta-text-muted);
+}
+
+.search {
+  --cut: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  background: var(--collecta-surface);
+  color: var(--collecta-text-muted);
+  font-size: 18px;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--ion-text-color);
+    font: 400 15px var(--ion-font-family);
+  }
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  margin: 0 -20px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: var(--collecta-text-muted);
+  font: 500 14px var(--ion-font-family);
+  cursor: pointer;
+
+  .count {
+    padding: 0 5px;
+    background: var(--collecta-surface-raised);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &.active {
+    border-color: var(--collecta-gold-line);
+    background: var(--collecta-gold-soft);
+    color: var(--collecta-gold);
+
+    .count {
+      background: rgba(244, 225, 176, 0.18);
+    }
+  }
+}
+
+.loading,
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading {
+  gap: 22px;
+}
+
+.featured-skeleton {
+  background: var(--collecta-surface);
+}
+
+.featured-skeleton-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px 16px;
+}
+
+.row-skeleton {
+  height: 104px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--collecta-text-muted);
+  font: 500 14px var(--ion-font-family);
+  cursor: pointer;
+}
+
+.no-results {
+  margin: 0;
+  padding: 28px 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  text-align: center;
+  font-size: 15px;
+  color: var(--collecta-text-muted);
+}

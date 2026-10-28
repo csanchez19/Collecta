@@ -1,0 +1,94 @@
+<ion-content class="grid-bg" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page">
+    <header class="heading">
+      <h1 class="title">Explorar</h1>
+      <span class="subtitle">Todas las colecciones del catálogo</span>
+    </header>
+
+    <label class="search chamfer">
+      <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+      <input
+        type="search"
+        placeholder="Busca una colección"
+        aria-label="Buscar colecciones"
+        [value]="store.query()"
+        (input)="onSearch($event)"
+      />
+    </label>
+
+    @if (store.status.isFirstLoad()) {
+      <div class="loading" aria-busy="true" aria-label="Cargando el catálogo">
+        <div class="chips">
+          @for (skeleton of [1, 2, 3]; track skeleton) {
+            <ion-skeleton-text [animated]="true" style="width: 92px; height: 38px"></ion-skeleton-text>
+          }
+        </div>
+        <div class="featured-skeleton hud">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 150px; border-radius: 0"></ion-skeleton-text>
+          <div class="featured-skeleton-body">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 86px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 50px"></ion-skeleton-text>
+          </div>
+        </div>
+        @for (skeleton of [1, 2, 3]; track skeleton) {
+          <ion-skeleton-text [animated]="true" class="row-skeleton"></ion-skeleton-text>
+        }
+      </div>
+    } @else if (store.status.hasError()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar el catálogo.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (store.isCatalogEmpty()) {
+      <div class="state-block">
+        <p>El catálogo todavía está vacío. En cuanto se publiquen colecciones aparecerán aquí.</p>
+      </div>
+    } @else {
+      <nav class="chips" aria-label="Filtrar por tipo">
+        @for (chip of chips(); track chip.kind) {
+          <button
+            class="chip"
+            type="button"
+            [class.active]="chip.active"
+            [attr.aria-pressed]="chip.active"
+            (click)="setKind(chip.kind)"
+          >
+            {{ chip.label }}<span class="count num">{{ chip.count }}</span>
+          </button>
+        }
+      </nav>
+
+      @if (featured(); as vm) {
+        <app-featured-collection
+          [vm]="vm"
+          [sets]="featuredSets()"
+          [setsLoading]="store.featuredSets.isFirstLoad()"
+          (open)="openCollection(vm.id)"
+          (openSet)="openSet($event)"
+          (favoriteToggle)="toggleFavorite(vm.id)"
+        />
+      }
+
+      <section class="list" aria-labelledby="h-list">
+        <div class="section-head">
+          <h2 id="h-list" class="section-label">{{ listTitle() }}</h2>
+          <button class="sort" type="button" aria-label="Cambiar orden" (click)="store.toggleSort()">
+            {{ sortLabel() }}
+            <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+
+        @for (row of rows(); track row.id) {
+          <app-explore-row [vm]="row" (open)="openCollection(row.id)" (favoriteToggle)="toggleFavorite(row.id)" />
+        } @empty {
+          <p class="no-results">No hay colecciones que coincidan con tu búsqueda.</p>
+        }
+      </section>
+    }
+  </div>
+</ion-content>

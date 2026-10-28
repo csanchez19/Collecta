@@ -1,0 +1,58 @@
+<section class="featured hud" [style.--hue]="vm().hue" aria-labelledby="featured-name">
+  <div class="banner tone-bg stripes">
+    <span class="ghost num tone-fg" aria-hidden="true">{{ vm().ghost }}</span>
+    <span class="badge num">DESTACADA</span>
+    <div class="title">
+      <span class="kind">{{ vm().kindLabel }}</span>
+      <h2 id="featured-name" class="name">{{ vm().name }}</h2>
+    </div>
+  </div>
+
+  <div class="body">
+    <dl class="stats">
+      <div><dt>sets</dt><dd class="num">{{ vm().setCount }}</dd></div>
+      <div><dt>{{ vm().itemNoun }}</dt><dd class="num">{{ vm().itemCount }}</dd></div>
+      <div><dt>la colecciona</dt><dd class="num">{{ vm().popularity }}</dd></div>
+    </dl>
+
+    @if (setsLoading() || sets().length > 0) {
+      <div class="recent">
+        <h3 class="section-label">Sets recientes</h3>
+        <div class="sets" [attr.aria-busy]="setsLoading()">
+          @if (setsLoading()) {
+            @for (slot of placeholders; track slot) {
+              <span class="set">
+                <ion-skeleton-text [animated]="true" class="mark-skeleton"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 80%; height: 12px"></ion-skeleton-text>
+              </span>
+            }
+          } @else {
+            @for (set of sets(); track set.id) {
+              <button class="set" type="button" (click)="openSet.emit(set.id)">
+                <span class="mark num chamfer tone-mid tone-fg" aria-hidden="true">{{ set.mark }}</span>
+                <span class="set-name">{{ set.name }}</span>
+                <span class="set-date">{{ set.date }}</span>
+              </button>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    <div class="actions">
+      <button class="btn-primary chamfer" type="button" (click)="open.emit()">
+        {{ vm().ctaLabel }}
+        <ion-icon name="chevron-forward" aria-hidden="true"></ion-icon>
+      </button>
+      <button
+        class="star"
+        type="button"
+        [attr.aria-pressed]="vm().isFavorite"
+        [attr.aria-label]="vm().isFavorite ? 'Quitar de favoritas' : 'Marcar como favorita'"
+        (click)="favoriteToggle.emit()"
+      >
+        <ion-icon [name]="vm().isFavorite ? 'star' : 'star-outline'" aria-hidden="true"></ion-icon>
+      </button>
+    </div>
+  </div>
+</section>

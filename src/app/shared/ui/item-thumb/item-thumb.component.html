@@ -1,13 +1,17 @@
 <div
   class="thumb tone-mid"
   [class]="'is-' + state() + ' as-' + variant()"
+  [class.has-image]="hasImage()"
   [style.--hue]="hue()"
   aria-hidden="true"
 >
-  @if (showsCode()) {
+  @if (hasImage() && imageUrl(); as url) {
+    @if (!isLoaded()) {
+      <span class="shimmer"></span>
+    }
+    <img [src]="url" alt="" loading="lazy" [class.loaded]="isLoaded()" (load)="onLoad(url)" (error)="onError(url)" />
+  } @else if (showsCode()) {
     <span class="code num">{{ code() }}</span>
-  } @else if (imageUrl(); as url) {
-    <img [src]="url" alt="" loading="lazy" />
   } @else {
     <span class="sil-head"><span></span><span></span></span>
     <span class="sil-art tone-art"></span>

@@ -1,0 +1,172 @@
+:host {
+  display: block;
+}
+
+.featured {
+  background: var(--collecta-surface);
+  border: 1px solid var(--collecta-surface-border);
+
+  // Keep the corner brackets above the banner.
+  &::before {
+    z-index: 1;
+  }
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ghost {
+  position: absolute;
+  right: -10px;
+  bottom: -34px;
+  font-size: 130px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  opacity: 0.14;
+  white-space: nowrap;
+}
+
+.badge {
+  position: relative;
+  align-self: flex-start;
+  padding: 3px 8px;
+  background: var(--collecta-gold);
+  color: var(--ion-color-primary-contrast);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kind {
+  font-size: 14px;
+  color: oklch(0.86 0.05 var(--hue));
+}
+
+.name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px 16px 16px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+
+  div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1px;
+  }
+
+  div + div {
+    padding-left: 12px;
+    border-left: 1px solid var(--collecta-surface-border);
+  }
+
+  dt {
+    font-size: 13px;
+    color: var(--collecta-text-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.recent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.set {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mark,
+.mark-skeleton {
+  height: 52px;
+}
+
+.mark {
+  --cut: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.set-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.set-date {
+  font-size: 12px;
+  color: var(--collecta-text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+
+  .btn-primary {
+    flex: 1;
+    min-height: 50px;
+    font-size: 16px;
+  }
+}
+
+.star {
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--collecta-gold);
+  font-size: 20px;
+  cursor: pointer;
+}
