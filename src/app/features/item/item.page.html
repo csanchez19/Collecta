@@ -1,0 +1,118 @@
+<ion-content class="grid-bg" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page">
+    <header class="top">
+      <button class="back-btn" type="button" (click)="back()">
+        <ion-icon name="chevron-back" aria-hidden="true"></ion-icon>
+        {{ backLabel() }}
+      </button>
+      @if (item(); as item) {
+        <button
+          class="icon-btn chamfer"
+          type="button"
+          [class.wished]="item.isWished"
+          [attr.aria-pressed]="item.isWished"
+          [attr.aria-label]="item.isWished ? 'Quitar de deseos' : 'Añadir a deseos'"
+          [disabled]="item.ownedCopies > 0"
+          (click)="toggleWish()"
+        >
+          <ion-icon [name]="item.isWished ? 'heart' : 'heart-outline'" aria-hidden="true"></ion-icon>
+        </button>
+      }
+    </header>
+
+    @if (store.item.hasError()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar esta pieza.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (item() === null) {
+      <div class="state-block">
+        <p>Esta pieza ya no está en el catálogo.</p>
+        <button class="btn-secondary" type="button" (click)="back()">Volver</button>
+      </div>
+    } @else if (item(); as item) {
+      <div class="stage hud tone-bg stripes" [style.--hue]="item.accentHue">
+        @if (item.rarity) {
+          <span class="rarity-chip num tone-fg">{{ item.rarity }}</span>
+        }
+        <app-item-thumb class="hero" [hue]="item.accentHue" [imageUrl]="item.imageUrl" />
+      </div>
+
+      <div class="heading">
+        <div class="meta">
+          @if (numberLabel(); as number) {
+            <span class="num number">{{ number.code }}<span class="num-dim">{{ number.total }}</span></span>
+          }
+          @if (item.rarity) {
+            <span class="sep" aria-hidden="true"></span>
+            <app-rarity-marks [tier]="item.rarityTier" />
+            <span>{{ item.rarity }}</span>
+          }
+        </div>
+        <h1 class="name">{{ item.name }}</h1>
+      </div>
+
+      <app-ownership-panel
+        [copies]="item.ownedCopies"
+        [xpReward]="xpPerItem"
+        [saveFailed]="store.saveFailed()"
+        (increment)="addCopy()"
+        (decrement)="removeCopy()"
+      />
+
+      <app-price-panel [price]="price()" [chart]="chart()" [range]="store.range()" (rangeChange)="setRange($event)" />
+
+      @if (item.attributes.length > 0) {
+        <section class="attributes" aria-label="Datos de la pieza">
+          @for (attribute of item.attributes; track attribute.label) {
+            <div class="attribute tone-fg" [style.--hue]="item.accentHue">
+              <span class="muted">{{ attribute.label }}</span>
+              <span class="num attribute-value">{{ attribute.value }}</span>
+            </div>
+          }
+        </section>
+      }
+
+      @if (related().length > 0) {
+        <section aria-labelledby="h-related">
+          <div class="section-head">
+            <h2 id="h-related" class="section-label">Del mismo set</h2>
+            <button class="link-btn" type="button" (click)="back()">Ver en el archivador</button>
+          </div>
+          <div class="related">
+            @for (other of related(); track other.id) {
+              <button class="other" type="button" (click)="openItem(other.id)">
+                <app-item-thumb [hue]="other.hue" [imageUrl]="other.imageUrl" [state]="other.state" />
+                <span class="other-name">{{ other.name }}</span>
+                <span [class]="'other-state ' + other.state">{{ other.stateLabel }}</span>
+              </button>
+            }
+          </div>
+        </section>
+      } @else if (store.siblings.isFirstLoad()) {
+        <div class="related" aria-busy="true" aria-label="Cargando piezas del mismo set">
+          @for (skeleton of [1, 2, 3]; track skeleton) {
+            <ion-skeleton-text [animated]="true" class="thumb-skeleton"></ion-skeleton-text>
+          }
+        </div>
+      }
+    } @else {
+      <div class="loading" aria-busy="true" aria-label="Cargando la pieza">
+        <ion-skeleton-text [animated]="true" class="stage-skeleton"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 45%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 70%; height: 34px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 56px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 190px"></ion-skeleton-text>
+        <div class="attributes">
+          @for (skeleton of [1, 2, 3, 4]; track skeleton) {
+            <ion-skeleton-text [animated]="true" style="height: 64px"></ion-skeleton-text>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ion-content>

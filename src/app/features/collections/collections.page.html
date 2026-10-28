@@ -1,66 +1,124 @@
-<ion-header class="collections-header" [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      <span class="eyebrow">Tu vitrina</span>
-      <span class="screen-title collecta-display">Colecciones</span>
-    </ion-title>
-    <ion-avatar slot="end" aria-hidden="true">{{ session.initials() }}</ion-avatar>
-  </ion-toolbar>
-
-  <ion-toolbar>
-    <ion-searchbar
-      placeholder="Busca colecciones o temáticas"
-      [debounce]="200"
-      [value]="store.query()"
-      (ionInput)="onSearch($event)"
-    ></ion-searchbar>
-  </ion-toolbar>
-
-  <ion-toolbar>
-    <ion-segment [value]="store.scope()" (ionChange)="onScopeChange($event)">
-      <ion-segment-button value="mias">Mías</ion-segment-button>
-      <ion-segment-button value="populares">Populares</ion-segment-button>
-      <ion-segment-button value="sugeridas">Sugeridas</ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+<ion-content class="grid-bg" [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  @if (store.isLoading()) {
-    <div class="list">
-      @for (skeleton of skeletons; track $index) {
-        <div class="skeleton-card">
-          <ion-skeleton-text [animated]="true" class="skeleton-cover"></ion-skeleton-text>
-          <div class="skeleton-lines">
-            <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
-            <ion-skeleton-text [animated]="true" style="width: 40%"></ion-skeleton-text>
-            <ion-skeleton-text [animated]="true" style="width: 90%"></ion-skeleton-text>
+  <div class="page">
+    <header class="top">
+      <span class="brand num"><span class="diamond" aria-hidden="true"></span>COLLECTA</span>
+      <button class="icon-btn chamfer" type="button" aria-label="Explorar el catálogo" (click)="openExplore()">
+        <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+      </button>
+    </header>
+
+    @if (hero(); as vm) {
+      <app-level-panel [vm]="vm" />
+    } @else if (heroFailed()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar tu colección.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    } @else {
+      <div class="hero-skeleton hud" aria-busy="true" aria-label="Cargando tu nivel">
+        <div class="row">
+          <div class="col">
+            <ion-skeleton-text [animated]="true" style="width: 90px; height: 14px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 110px; height: 52px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 150px; height: 14px"></ion-skeleton-text>
+          </div>
+          <div class="col end">
+            <ion-skeleton-text [animated]="true" style="width: 74px; height: 24px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 90px; height: 22px"></ion-skeleton-text>
           </div>
         </div>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 8px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 36px"></ion-skeleton-text>
+      </div>
+    }
+
+    <section aria-labelledby="h-recent">
+      <div class="section-head">
+        <h2 id="h-recent" class="section-label">Recién añadidas</h2>
+      </div>
+      @if (profile.recent.isFirstLoad()) {
+        <div class="carousel" aria-busy="true" aria-label="Cargando lo último que has añadido">
+          @for (skeleton of [1, 2, 3, 4]; track skeleton) {
+            <div class="recent">
+              <ion-skeleton-text [animated]="true" class="thumb-skeleton"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 80%; height: 14px"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 50%; height: 12px"></ion-skeleton-text>
+            </div>
+          }
+        </div>
+      } @else if (recent().length === 0) {
+        <p class="hint">Cuando añadas piezas a tu colección aparecerán aquí.</p>
+      } @else {
+        <div class="carousel">
+          @for (item of recent(); track item.id) {
+            <button class="recent" type="button" (click)="openItem(item)">
+              <app-item-thumb [hue]="item.hue" [imageUrl]="item.imageUrl" />
+              <span class="recent-name">{{ item.name }}</span>
+              <span class="recent-set">
+                <app-rarity-marks [tier]="item.tier" />
+                {{ item.setName }}
+              </span>
+            </button>
+          }
+        </div>
       }
-    </div>
-  } @else if (store.hasError()) {
-    <div class="state">
-      <ion-text color="medium">No hemos podido cargar las colecciones. Desliza para reintentar.</ion-text>
-    </div>
-  } @else if (store.isEmpty()) {
-    <div class="state">
-      <ion-text color="medium">Nada por aquí todavía. Prueba otra pestaña o busca una temática.</ion-text>
-    </div>
-  } @else {
-    <div class="list">
-      @for (card of cards(); track card.id) {
-        <app-collection-card
-          [vm]="card"
-          (open)="openCollection(card.id)"
-          (favoriteToggle)="onToggleFavorite(card.id)"
-        />
+    </section>
+
+    <section aria-labelledby="h-collections" class="collections">
+      <div class="section-head">
+        <h2 id="h-collections" class="section-label">Tus colecciones · {{ cards().length }}</h2>
+        <button class="sort" type="button" (click)="cycleSort()" aria-label="Cambiar orden">
+          {{ sortLabel() }}
+          <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
+
+      @if (store.catalog.isFirstLoad()) {
+        @for (skeleton of [1, 2, 3]; track skeleton) {
+          <div class="card-skeleton chamfer" aria-busy="true" aria-label="Cargando colección">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 104px; border-radius: 0"></ion-skeleton-text>
+            <div class="card-skeleton-body">
+              <ion-skeleton-text [animated]="true" style="width: 55%; height: 20px"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 8px"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 40%; height: 14px"></ion-skeleton-text>
+            </div>
+          </div>
+        }
+      } @else if (store.catalog.hasError()) {
+        <div class="state-block" role="alert">
+          <p>No hemos podido cargar tus colecciones.</p>
+          <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+        </div>
+      } @else if (cards().length === 0) {
+        <div class="state-block">
+          <p>Todavía no sigues ninguna colección. Busca una en el catálogo y empieza a añadir piezas.</p>
+          <button class="btn-secondary" type="button" (click)="openExplore()">Explorar el catálogo</button>
+        </div>
+      } @else {
+        @for (card of cards(); track card.id) {
+          <app-collection-card
+            [vm]="card"
+            (open)="openCollection(card.id)"
+            (favoriteToggle)="onToggleFavorite(card.id)"
+          />
+        }
       }
-    </div>
-    <p class="footnote">Los administradores publican nuevas temáticas cada semana</p>
-  }
+    </section>
+
+    @if (nextGoal(); as goal) {
+      <section class="goal" aria-labelledby="h-goal">
+        <span class="goal-hex hex" aria-hidden="true"></span>
+        <div class="goal-text">
+          <span class="goal-eyebrow num">Logro cercano</span>
+          <h2 id="h-goal" class="goal-name">{{ goal.name }}</h2>
+          <app-segment-bar [ratio]="goal.ratio" [segments]="16" />
+        </div>
+        <span class="goal-percent num">{{ goal.percent }}</span>
+      </section>
+    }
+  </div>
 </ion-content>

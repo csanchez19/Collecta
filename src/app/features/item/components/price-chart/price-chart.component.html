@@ -1,0 +1,8 @@
+<div class="chart" [class.down]="trend() === 'down'" role="img" [attr.aria-label]="'Evolución del precio: ' + summary()">
+  <svg [attr.viewBox]="viewBox" preserveAspectRatio="none" aria-hidden="true">
+    <path [attr.d]="gridLines" class="grid" vector-effect="non-scaling-stroke"></path>
+    <path [attr.d]="area()" class="area"></path>
+    <path [attr.d]="line()" class="line" vector-effect="non-scaling-stroke"></path>
+  </svg>
+  <span class="end diamond" [style.top.%]="endTop()" aria-hidden="true"></span>
+</div>

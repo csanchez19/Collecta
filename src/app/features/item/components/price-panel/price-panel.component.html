@@ -1,0 +1,36 @@
+<section class="panel chamfer" aria-label="Precio">
+  @if (price(); as price) {
+    <div class="head">
+      <div class="value-block">
+        <span class="muted">Precio de mercado</span>
+        <span class="num value">{{ price.value }}</span>
+      </div>
+      <span class="change" [class.down]="price.trend === 'down'" [attr.aria-label]="price.changeLabel">
+        <ion-icon [name]="price.trend === 'down' ? 'arrow-down' : 'arrow-up'" aria-hidden="true"></ion-icon>
+        {{ price.change }}
+      </span>
+    </div>
+
+    @if (chart(); as chart) {
+      <app-price-chart [values]="chart.values" [trend]="chart.trend" [summary]="chart.summary" />
+    } @else {
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 86px"></ion-skeleton-text>
+    }
+
+    <div class="ranges" role="group" aria-label="Periodo">
+      @for (option of ranges; track option.range) {
+        <button
+          type="button"
+          class="num"
+          [class.active]="range() === option.range"
+          [attr.aria-pressed]="range() === option.range"
+          (click)="rangeChange.emit(option.range)"
+        >
+          {{ option.label }}
+        </button>
+      }
+    </div>
+  } @else {
+    <p class="muted">Esta pieza todavía no tiene precio de mercado.</p>
+  }
+</section>

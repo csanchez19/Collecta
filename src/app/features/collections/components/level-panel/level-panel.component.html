@@ -1,0 +1,37 @@
+<section class="panel hud" aria-label="Tu nivel">
+  <div class="top">
+    <div class="pieces">
+      <span class="greeting">{{ vm().greeting }}</span>
+      <span class="big num">{{ vm().ownedLabel }}</span>
+      <span class="muted">piezas en tu colección</span>
+    </div>
+    <div class="side">
+      <span class="level num chamfer">NIVEL {{ vm().level }}</span>
+      <span class="value num">{{ vm().valueLabel }}</span>
+      <span class="muted">valor estimado</span>
+    </div>
+  </div>
+
+  <div class="xp">
+    <app-segment-bar [ratio]="vm().xpRatio" />
+    <div class="xp-labels">
+      <span><span class="num strong">{{ vm().xpLabel }}</span> / {{ vm().xpSizeLabel }} XP</span>
+      <span>{{ vm().toNextLabel }}</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <ion-icon name="grid-outline" class="gold" aria-hidden="true"></ion-icon>
+      <span><span class="num">{{ vm().setCount }}</span><small>sets</small></span>
+    </div>
+    <div class="stat">
+      <ion-icon name="heart" class="wish" aria-hidden="true"></ion-icon>
+      <span><span class="num">{{ vm().wishCount }}</span><small>deseos</small></span>
+    </div>
+    <div class="stat">
+      <span class="hex gold-hex" aria-hidden="true"></span>
+      <span><span class="num">{{ vm().achievementCount }}</span><small>logros</small></span>
+    </div>
+  </div>
+</section>

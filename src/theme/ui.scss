@@ -1,0 +1,228 @@
+// Collecta UI primitives shared by every screen.
+// They live here (global) rather than in component styles: the visual language
+// repeats everywhere and component styles have a 4 kB budget each.
+
+// --- Typography -------------------------------------------------------------
+.collecta-display,
+.num {
+  font-family: var(--collecta-font-display);
+}
+
+.collecta-display {
+  font-weight: 700;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.num-dim {
+  color: var(--collecta-text-faint);
+}
+
+.section-label {
+  margin: 0;
+  font-family: var(--collecta-font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--collecta-text-muted);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+}
+
+// --- Shapes -----------------------------------------------------------------
+// Cut top-left and bottom-right corners. Size with `--cut`.
+.chamfer {
+  --cut: 12px;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+
+.hex {
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.diamond {
+  display: inline-block;
+  width: var(--size, 8px);
+  height: var(--size, 8px);
+  transform: rotate(45deg);
+  background: var(--collecta-gold);
+}
+
+// Gold corner brackets around a panel, like a game HUD.
+.hud {
+  position: relative;
+
+  &::before {
+    --c: var(--hud-color, var(--collecta-gold));
+    --l: 12px;
+    content: '';
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--c), var(--c)) top left / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) top left / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) top right / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) top right / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom left / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) bottom left / 2px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom right / var(--l) 2px,
+      linear-gradient(var(--c), var(--c)) bottom right / 2px var(--l);
+    background-repeat: no-repeat;
+  }
+}
+
+// --- Collection tones -------------------------------------------------------
+// Each collection has an accent hue (`--hue`, 0–360). Tones derive from it so a
+// new collection gets its colours from data, not from new CSS.
+.tone-bg {
+  background-color: oklch(0.25 0.035 var(--hue, 30));
+}
+
+.tone-mid {
+  background-color: oklch(0.33 0.05 var(--hue, 30));
+}
+
+.tone-art {
+  background-color: oklch(0.42 0.07 var(--hue, 30));
+}
+
+.tone-fg {
+  color: oklch(0.8 0.09 var(--hue, 30));
+}
+
+.stripes {
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 14px);
+}
+
+// --- Page chrome ------------------------------------------------------------
+ion-content.grid-bg {
+  --background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--ion-background-color);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: calc(env(safe-area-inset-top) + 14px) 20px 28px;
+}
+
+.icon-btn {
+  --cut: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  padding: 0;
+  background: var(--collecta-surface-raised);
+  color: var(--ion-text-color);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 10px 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--ion-text-color);
+  font: 500 16px var(--ion-font-family);
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 22px;
+  }
+}
+
+.btn-primary {
+  --cut: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+  border: 0;
+  background: var(--collecta-gold);
+  color: var(--ion-color-primary-contrast);
+  font: 600 17px var(--ion-font-family);
+  box-shadow: 0 0 24px rgba(244, 225, 176, 0.28);
+  cursor: pointer;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--ion-text-color);
+  font: 500 16px var(--ion-font-family);
+  cursor: pointer;
+}
+
+.link-btn {
+  min-height: 44px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--collecta-gold);
+  font: 500 14px var(--ion-font-family);
+  cursor: pointer;
+}
+
+// --- Loading, empty and error states ---------------------------------------
+ion-skeleton-text {
+  --background: rgba(255, 255, 255, 0.07);
+  --background-rgb: 255, 255, 255;
+  margin: 0;
+  border-radius: 3px;
+}
+
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  text-align: center;
+  color: var(--collecta-text-muted);
+  font-size: 15px;
+  line-height: 1.45;
+
+  p {
+    margin: 0;
+  }
+
+  .btn-secondary {
+    width: auto;
+    padding: 0 20px;
+  }
+}

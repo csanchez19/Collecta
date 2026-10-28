@@ -17,6 +17,9 @@ interface CollectionDto {
   readonly mine: boolean;
   readonly isFavorite: boolean;
   readonly popularity: number;
+  // Not served by the API yet (sets are on their way): optional until they are.
+  readonly setCount?: number;
+  readonly ownedValueCents?: number;
 }
 
 @Injectable()
@@ -53,6 +56,8 @@ function toCollection(dto: CollectionDto): Collection {
     kindLabel: dto.kindLabel,
     ownedCount: dto.ownedCount,
     totalCount: dto.totalCount,
+    setCount: dto.setCount ?? 0,
+    ownedValueCents: dto.ownedValueCents ?? 0,
     popularity: dto.popularity,
     mine: dto.mine,
     accentHue: dto.accentHue,

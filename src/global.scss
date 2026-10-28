@@ -35,15 +35,9 @@
 /* Collecta ships a single dark theme. */
 @import "@ionic/angular/css/palettes/dark.always.css";
 
-/* Collecta typography ------------------------------------------------------ */
+/* Collecta typography (shared UI primitives live in theme/ui.scss) ------- */
 h1,
 h2,
-h3,
-.collecta-display {
+h3 {
   font-family: var(--collecta-font-display);
-  letter-spacing: -0.01em;
-}
-
-.collecta-display {
-  font-weight: 700;
 }

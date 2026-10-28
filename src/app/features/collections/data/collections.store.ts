@@ -3,18 +3,20 @@ import { Injectable, computed, effect, inject, signal, untracked } from '@angula
 import { AuthStore } from '../../../core/auth/auth.store';
 import { CollectionsRepository } from '../../../core/data/collections.repository';
 import { Collection } from '../../../core/models/collection.model';
-import { CollectionScope } from '../../../core/models/collection-scope';
+import { Loadable } from '../../../core/state/loadable';
 import { SessionStore } from '../../../core/state/session.store';
 
-type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
+export type CollectionSort = 'completion' | 'value' | 'name';
+
+export const COLLECTION_SORTS: readonly CollectionSort[] = ['completion', 'value', 'name'];
 
 /**
- * Owns the Colecciones screen state: the loaded catalog plus the active
- * search + scope filters. Responsibility stops at "which collections, in what
- * order" — turning a `Collection` into card pixels is the page's job.
+ * Owns the Colecciones screen state: the loaded catalog and the active sort.
+ * Responsibility stops at "which collections, in what order" — turning a
+ * `Collection` into card pixels is the page's job.
  *
- * Provided in root so the state (and the one catalog fetch) survives tab
- * switches and back-navigation.
+ * Provided in root so the state (and the catalog fetch) survives tab switches
+ * and back-navigation.
  */
 @Injectable({ providedIn: 'root' })
 export class CollectionsStore {
@@ -22,98 +24,63 @@ export class CollectionsStore {
   private readonly session = inject(SessionStore);
   private readonly auth = inject(AuthStore);
 
-  private readonly _all = signal<readonly Collection[]>([]);
-  private readonly _status = signal<LoadStatus>('idle');
-  private readonly _query = signal('');
-  private readonly _scope = signal<CollectionScope>('mias');
+  readonly catalog = new Loadable<readonly Collection[]>();
+  private readonly _sort = signal<CollectionSort>('completion');
 
-  readonly status = this._status.asReadonly();
-  readonly query = this._query.asReadonly();
-  readonly scope = this._scope.asReadonly();
+  readonly sort = this._sort.asReadonly();
 
-  /** Collections matching the active scope + search, ordered for that scope. */
-  readonly visibleCollections = computed<readonly Collection[]>(() => {
-    const scope = this._scope();
-    const needle = this._query().trim().toLowerCase();
+  /** The user's collections (owned or starred), in the active order. */
+  readonly myCollections = computed<readonly Collection[]>(() => {
     const favorites = this.session.favoriteCollectionIds();
-
-    const filtered = this._all().filter(
-      (collection) =>
-        this.matchesScope(collection, scope, favorites) &&
-        (needle === '' || collection.name.toLowerCase().includes(needle)),
+    const mine = (this.catalog.value() ?? []).filter(
+      (collection) => collection.mine || favorites.has(collection.id),
     );
-
-    return scope === 'populares'
-      ? filtered.slice().sort((a, b) => b.popularity - a.popularity)
-      : filtered;
+    return mine.slice().sort(COMPARERS[this._sort()]);
   });
 
-  readonly isLoading = computed(() => this._status() === 'loading' || this._status() === 'idle');
-  readonly isEmpty = computed(
-    () => this._status() === 'ready' && this.visibleCollections().length === 0,
+  readonly totals = computed(() =>
+    this.myCollections().reduce(
+      (sum, collection) => ({
+        owned: sum.owned + collection.ownedCount,
+        valueCents: sum.valueCents + collection.ownedValueCents,
+        sets: sum.sets + collection.setCount,
+      }),
+      { owned: 0, valueCents: 0, sets: 0 },
+    ),
   );
-  readonly hasError = computed(() => this._status() === 'error');
 
   constructor() {
     // Owned counts and favourites are per user: start over whenever the account changes.
     effect(() => {
       const userId = this.auth.userId();
       untracked(() => {
-        this._all.set([]);
-        this._status.set('idle');
+        this.catalog.reset();
         if (userId) {
-          void this.load();
+          void this.refresh();
         }
       });
     });
   }
 
-  setQuery(value: string): void {
-    this._query.set(value);
+  setSort(sort: CollectionSort): void {
+    this._sort.set(sort);
   }
 
-  setScope(scope: CollectionScope): void {
-    this._scope.set(scope);
-  }
-
-  async reload(): Promise<void> {
-    this._status.set('idle');
-    await this.load();
-  }
-
-  private async load(): Promise<void> {
-    if (this._status() === 'loading' || this._status() === 'ready') {
-      return;
-    }
-    this._status.set('loading');
-    const userId = this.auth.userId();
-    try {
-      const collections = await this.repository.list();
-      if (this.auth.userId() !== userId) {
-        return; // Signed out or switched account mid-request: the effect already restarted.
-      }
-      this._all.set(collections);
+  async refresh(): Promise<void> {
+    await this.catalog.load(() => this.repository.list());
+    const collections = this.catalog.value();
+    if (collections && this.catalog.status() === 'ready') {
       this.session.replaceFavorites(collections.filter((c) => c.isFavorite).map((c) => c.id));
-      this._status.set('ready');
-    } catch {
-      if (this.auth.userId() === userId) {
-        this._status.set('error');
-      }
     }
   }
+}
 
-  private matchesScope(
-    collection: Collection,
-    scope: CollectionScope,
-    favorites: ReadonlySet<string>,
-  ): boolean {
-    switch (scope) {
-      case 'mias':
-        return collection.mine || favorites.has(collection.id);
-      case 'sugeridas':
-        return !collection.mine;
-      case 'populares':
-        return true;
-    }
-  }
+const COMPARERS: Readonly<Record<CollectionSort, (a: Collection, b: Collection) => number>> = {
+  completion: (a, b) => completion(b) - completion(a),
+  value: (a, b) => b.ownedValueCents - a.ownedValueCents,
+  name: (a, b) => a.name.localeCompare(b.name, 'es'),
+};
+
+function completion(collection: Collection): number {
+  return collection.totalCount === 0 ? 0 : collection.ownedCount / collection.totalCount;
 }

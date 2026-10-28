@@ -1,65 +1,78 @@
-// Collecta theme — dark "elegant arcade".
+// Collecta theme — dark, champagne gold with a restrained gaming edge.
 // Ionic variable reference: https://ionicframework.com/docs/theming/css-variables
 
 :root {
   // --- Base surfaces --------------------------------------------------------
-  --ion-background-color: #141118;
-  --ion-background-color-rgb: 20, 17, 24;
-  --ion-text-color: #f2f1f5;
-  --ion-text-color-rgb: 242, 241, 245;
+  --ion-background-color: #0f1012;
+  --ion-background-color-rgb: 15, 16, 18;
+  --ion-text-color: #ededeb;
+  --ion-text-color-rgb: 237, 237, 235;
 
-  --ion-font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ion-font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --ion-toolbar-background: #141118;
+  --ion-toolbar-background: #0f1012;
   --ion-toolbar-border-color: transparent;
-  --ion-item-background: #1a1922;
-  --ion-card-background: #1a1922;
-  --ion-tab-bar-background: #161520;
-  --ion-tab-bar-border-color: #232230;
-  --ion-border-color: #262530;
+  --ion-item-background: #16171a;
+  --ion-card-background: #16171a;
+  --ion-tab-bar-background: #121315;
+  --ion-tab-bar-border-color: rgba(255, 255, 255, 0.07);
+  --ion-border-color: rgba(255, 255, 255, 0.07);
 
-  // --- Brand accents (shared chroma/lightness, hue varies) ------------------
-  --ion-color-primary: #a970ff;
-  --ion-color-primary-rgb: 169, 112, 255;
-  --ion-color-primary-contrast: #141118;
-  --ion-color-primary-contrast-rgb: 20, 17, 24;
-  --ion-color-primary-shade: #9563e0;
-  --ion-color-primary-tint: #b27eff;
+  // --- Meaningful colours: each one always means the same thing -------------
+  // Champagne gold: primary action, what you own, progress.
+  --ion-color-primary: #f4e1b0;
+  --ion-color-primary-rgb: 244, 225, 176;
+  --ion-color-primary-contrast: #17140c;
+  --ion-color-primary-contrast-rgb: 23, 20, 12;
+  --ion-color-primary-shade: #d7c69b;
+  --ion-color-primary-tint: #f5e4b8;
 
-  --ion-color-secondary: #38e0d0;
-  --ion-color-secondary-rgb: 56, 224, 208;
-  --ion-color-secondary-contrast: #0c1413;
-  --ion-color-secondary-contrast-rgb: 12, 20, 19;
-  --ion-color-secondary-shade: #31c5b7;
-  --ion-color-secondary-tint: #4ce3d5;
+  // Lilac: wishlist.
+  --ion-color-secondary: #b8a8ec;
+  --ion-color-secondary-rgb: 184, 168, 236;
+  --ion-color-secondary-contrast: #16131f;
+  --ion-color-secondary-contrast-rgb: 22, 19, 31;
+  --ion-color-secondary-shade: #a294d0;
+  --ion-color-secondary-tint: #bfb1ee;
 
-  --ion-color-warning: #ffc857;
-  --ion-color-warning-rgb: 255, 200, 87;
-  --ion-color-warning-contrast: #141118;
-  --ion-color-warning-contrast-rgb: 20, 17, 24;
-  --ion-color-warning-shade: #e0b04d;
-  --ion-color-warning-tint: #ffce68;
+  // Sage: price up, completed.
+  --ion-color-success: #96cda4;
+  --ion-color-success-rgb: 150, 205, 164;
+  --ion-color-success-contrast: #0e1711;
+  --ion-color-success-contrast-rgb: 14, 23, 17;
+  --ion-color-success-shade: #84b490;
+  --ion-color-success-tint: #a1d2ad;
 
-  --ion-color-success: #4ee6a8;
-  --ion-color-success-rgb: 78, 230, 168;
-  --ion-color-success-contrast: #0b1712;
-  --ion-color-success-contrast-rgb: 11, 23, 18;
-  --ion-color-success-shade: #45ca94;
-  --ion-color-success-tint: #60e9b1;
+  // Rose: price down, errors, sign out.
+  --ion-color-danger: #ee9e9e;
+  --ion-color-danger-rgb: 238, 158, 158;
+  --ion-color-danger-contrast: #1c1010;
+  --ion-color-danger-contrast-rgb: 28, 16, 16;
+  --ion-color-danger-shade: #d18b8b;
+  --ion-color-danger-tint: #f0a8a8;
+
+  --ion-color-medium: #a3a3a0;
+  --ion-color-medium-rgb: 163, 163, 160;
+  --ion-color-medium-contrast: #0f1012;
+  --ion-color-medium-contrast-rgb: 15, 16, 18;
+  --ion-color-medium-shade: #8f8f8d;
+  --ion-color-medium-tint: #acacaa;
 
   // --- Collecta-specific tokens (used in component styles) -----------------
-  --collecta-surface: #1a1922;
-  --collecta-surface-border: #262530;
-  --collecta-text-muted: #a3a1b0;
-  --collecta-text-faint: #6b6a78;
+  --collecta-surface: #16171a;
+  --collecta-surface-raised: #1f2023;
+  --collecta-surface-border: rgba(255, 255, 255, 0.07);
+  --collecta-text-muted: #a3a3a0;
+  --collecta-text-faint: #75757a;
+  --collecta-track: #26272b;
 
-  --collecta-rarity-common: #8b8a9c;
-  --collecta-rarity-rare: #38c6e0;
-  --collecta-rarity-epic: #a970ff;
-  --collecta-rarity-legendary: #ffc857;
+  --collecta-gold: var(--ion-color-primary);
+  --collecta-gold-soft: rgba(244, 225, 176, 0.12);
+  --collecta-gold-line: rgba(244, 225, 176, 0.4);
+  --collecta-gold-glow: rgba(244, 225, 176, 0.5);
+  --collecta-wish: var(--ion-color-secondary);
+  --collecta-up: var(--ion-color-success);
+  --collecta-down: var(--ion-color-danger);
 
-  --collecta-radius-md: 14px;
-  --collecta-radius-lg: 18px;
-
-  --collecta-font-display: 'Unbounded', 'Space Grotesk', system-ui, sans-serif;
+  --collecta-font-display: 'Chakra Petch', 'Barlow', system-ui, sans-serif;
 }

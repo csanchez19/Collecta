@@ -6,11 +6,15 @@ export interface CollectionCardVm {
   readonly name: string;
   readonly kind: CollectionKind;
   readonly kindLabel: string;
-  /** 0–1, fed straight to `<ion-progress-bar [value]>`. */
-  readonly progressRatio: number;
-  readonly progressPercentLabel: string;
-  readonly progressCountLabel: string;
-  /** Ready-to-use CSS value for the cover gradient. */
-  readonly accent: string;
+  /** Collection hue every tone of the card derives from. */
+  readonly hue: number;
+  /** Big faint letters behind the banner, e.g. "HW". */
+  readonly ghost: string;
+  /** 0–1, fed to the segment bar. */
+  readonly ratio: number;
+  readonly ownedLabel: string;
+  readonly totalLabel: string;
+  readonly meta: string;
+  readonly valueLabel: string;
   readonly isFavorite: boolean;
 }
