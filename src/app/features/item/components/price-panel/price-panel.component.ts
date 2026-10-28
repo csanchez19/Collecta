@@ -8,7 +8,8 @@ import { PriceChartComponent } from '../price-chart/price-chart.component';
 
 export interface PriceVm {
   readonly value: string;
-  readonly change: string;
+  /** `null` while there is no older price to compare with. */
+  readonly change: string | null;
   readonly trend: 'up' | 'down';
   /** Spoken version of the change chip. */
   readonly changeLabel: string;
@@ -37,8 +38,10 @@ export const PRICE_RANGES: readonly { range: PriceRange; label: string }[] = [
 export class PricePanelComponent {
   /** `null` when the item has no market price. */
   readonly price = input.required<PriceVm | null>();
-  /** `null` while the history loads. */
+  /** `null` while the history loads or when it has fewer than two points. */
   readonly chart = input.required<ChartVm | null>();
+  /** True only on the first load: tells "loading" from "not enough history yet". */
+  readonly historyLoading = input(false);
   readonly range = input.required<PriceRange>();
 
   readonly rangeChange = output<PriceRange>();

@@ -77,10 +77,16 @@ declares an `abstract class` boundary (`CollectionsRepository`,
 `CatalogRepository` for sets/items/ownership, `ProfileRepository` for
 progression/recent/wishlist); concrete implementations are bound once in
 `core/core.providers.ts` via `provideCore()`. Nothing else references a concrete
-repository. **Currently all three are bound to the in-memory mocks**
-(`core/data/mock/mock-catalog.db.ts`, one shared sample dataset with simulated
-latency) because Collecta.API does not serve sets, items or progression yet;
-`HttpCollectionsRepository` exists and comes back once those endpoints do.
+repository. They are bound to the HTTP implementations
+(`Http{Collections,Catalog,Profile}Repository`); API response shapes live in
+`core/data/http/catalog.dtos.ts` and their mapping to app models in
+`catalog.mappers.ts` (incl. Spanish labels for item attributes, which the API
+returns raw as imported). There is no sample/seed data in the app: data
+always comes from the API (Carles loads the catalog with the API's
+importer). Catalog
+endpoints are public; `/api/me/*` holds the user's copies, wishlist,
+favourites, recent items and progression. `ApiClient.getOptional()` turns a 404
+into `undefined`.
 
 **HTTP is `fetch` + promises, not `HttpClient`** (keeps RxJS out). HTTP
 repositories use `core/api/api-client.ts` (`ApiClient`), which attaches the
