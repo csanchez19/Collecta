@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { IonButton, IonIcon, IonProgressBar } from '@ionic/angular';
+import { IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   albumsOutline,
+  carSportOutline,
   cubeOutline,
   discOutline,
   personOutline,
@@ -11,10 +12,11 @@ import {
 } from 'ionicons/icons';
 
 import { CollectionKind } from '../../../../core/models/collection.model';
+import { SegmentBarComponent } from '../../../../shared/ui/segment-bar/segment-bar.component';
 import { CollectionCardVm } from '../../models/collection-card.vm';
 
 const KIND_ICON: Record<CollectionKind, string> = {
-  car: 'albums-outline',
+  car: 'car-sport-outline',
   card: 'albums-outline',
   spinner: 'disc-outline',
   figure: 'person-outline',
@@ -27,7 +29,7 @@ const KIND_ICON: Record<CollectionKind, string> = {
   templateUrl: './collection-card.component.html',
   styleUrls: ['./collection-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonButton, IonIcon, IonProgressBar],
+  imports: [IonIcon, SegmentBarComponent],
 })
 export class CollectionCardComponent {
   readonly vm = input.required<CollectionCardVm>();
@@ -38,11 +40,6 @@ export class CollectionCardComponent {
   protected readonly kindIcon = computed(() => KIND_ICON[this.vm().kind]);
 
   constructor() {
-    addIcons({ albumsOutline, discOutline, personOutline, cubeOutline, star, starOutline });
-  }
-
-  protected onFavoriteClick(event: Event): void {
-    event.stopPropagation();
-    this.favoriteToggle.emit();
+    addIcons({ albumsOutline, carSportOutline, discOutline, personOutline, cubeOutline, star, starOutline });
   }
 }

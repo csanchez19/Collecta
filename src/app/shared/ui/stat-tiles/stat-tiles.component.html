@@ -1,0 +1,19 @@
+<section class="tiles" [attr.aria-label]="label()" [attr.aria-busy]="loading()">
+  @if (loading()) {
+    @for (placeholder of placeholders; track placeholder) {
+      <div class="tile chamfer">
+        <ion-skeleton-text [animated]="true" style="width: 70%; height: 22px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 50%; height: 12px"></ion-skeleton-text>
+      </div>
+    }
+  } @else {
+    @for (tile of tiles(); track tile.label) {
+      <div class="tile chamfer">
+        <span class="value num" [class.wish]="tile.tone === 'wish'">
+          {{ tile.value }}@if (tile.suffix) {<span class="num-dim suffix">{{ tile.suffix }}</span>}
+        </span>
+        <span class="label">{{ tile.label }}</span>
+      </div>
+    }
+  }
+</section>

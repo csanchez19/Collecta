@@ -1,0 +1,79 @@
+<ion-content class="grid-bg" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  @if (collection(); as collection) {
+    <app-page-banner
+      backLabel="Colecciones"
+      [hue]="collection.accentHue"
+      [ghost]="ghost(collection.name)"
+      [eyebrow]="collection.kindLabel"
+      [title]="collection.name"
+      (back)="back()"
+    >
+      <button
+        actions
+        class="icon-btn chamfer favorite"
+        type="button"
+        [attr.aria-pressed]="isFavorite()"
+        [attr.aria-label]="isFavorite() ? 'Quitar de favoritas' : 'Marcar como favorita'"
+        (click)="toggleFavorite()"
+      >
+        <ion-icon [name]="isFavorite() ? 'star' : 'star-outline'" aria-hidden="true"></ion-icon>
+      </button>
+    </app-page-banner>
+  } @else {
+    <app-page-banner backLabel="Colecciones" [loading]="store.collection.isFirstLoad()" (back)="back()" />
+  }
+
+  <div class="content">
+    @if (store.collection.hasError() || store.sets.hasError()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar esta colección.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (collection() === null) {
+      <div class="state-block">
+        <p>Esta colección ya no está disponible.</p>
+        <button class="btn-secondary" type="button" (click)="back()">Volver a tus colecciones</button>
+      </div>
+    } @else {
+      <app-stat-tiles label="Resumen de la colección" [tiles]="tiles()" [loading]="!collection()" />
+
+      <section class="sets" aria-labelledby="h-sets">
+        <h2 id="h-sets" class="section-label">Sets</h2>
+
+        @if (store.sets.isFirstLoad()) {
+          @for (skeleton of [1, 2, 3]; track skeleton) {
+            <div class="set chamfer" aria-busy="true" aria-label="Cargando set">
+              <ion-skeleton-text [animated]="true" style="width: 50%; height: 20px"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 35%; height: 14px"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 8px"></ion-skeleton-text>
+            </div>
+          }
+        } @else if (sets().length === 0) {
+          <div class="state-block">
+            <p>Esta colección todavía no tiene sets publicados.</p>
+          </div>
+        } @else {
+          @for (set of sets(); track set.id) {
+            <button class="set chamfer" type="button" (click)="openSet(set.id)">
+              <span class="row">
+                <span class="name num">{{ set.name }}</span>
+                <span class="count num">{{ set.ownedLabel }}<span class="num-dim">/{{ set.totalLabel }}</span></span>
+              </span>
+              <span class="row meta">
+                <span>{{ set.meta }}</span>
+                @if (set.wishLabel) {
+                  <span class="wish">{{ set.wishLabel }}</span>
+                }
+              </span>
+              <app-segment-bar [ratio]="set.ratio" />
+            </button>
+          }
+        }
+      </section>
+    }
+  </div>
+</ion-content>

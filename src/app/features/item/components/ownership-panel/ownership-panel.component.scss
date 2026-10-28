@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.owned {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px 12px 16px;
+  background: var(--collecta-gold-soft);
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--collecta-gold);
+}
+
+.copies {
+  font-size: 14px;
+  color: var(--collecta-text-muted);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  button {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: var(--collecta-surface-raised);
+    color: var(--ion-text-color);
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .num {
+    min-width: 36px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.xp {
+  padding: 2px 6px;
+  background: rgba(23, 20, 12, 0.12);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.error {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--collecta-down);
+}

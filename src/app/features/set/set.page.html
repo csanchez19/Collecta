@@ -1,0 +1,111 @@
+<ion-content class="grid-bg" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  @if (set(); as set) {
+    <app-page-banner
+      [backLabel]="backLabel()"
+      [hue]="hue()"
+      [ghost]="set.name"
+      [eyebrow]="eyebrow()"
+      [title]="set.name"
+      (back)="back()"
+    />
+  } @else {
+    <app-page-banner [backLabel]="backLabel()" [loading]="store.set.isFirstLoad()" (back)="back()" />
+  }
+
+  <div class="content">
+    @if (store.set.hasError() || store.items.hasError()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar este set.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (set() === null) {
+      <div class="state-block">
+        <p>Este set ya no está disponible.</p>
+        <button class="btn-secondary" type="button" (click)="back()">Volver a la colección</button>
+      </div>
+    } @else {
+      <app-stat-tiles label="Resumen del set" [tiles]="tiles()" [loading]="!loaded()" />
+
+      <section class="progress" aria-label="Tu progreso">
+        @if (loaded()) {
+          <div class="track">
+            <app-segment-bar [ratio]="ratio()" [segments]="barSegments" />
+            @for (milestone of milestones(); track milestone.percent) {
+              <span
+                class="milestone num"
+                [class.reached]="milestone.reached"
+                [style.left]="'calc(' + milestone.percent + '% - ' + (milestone.percent === 100 ? 34 : 16) + 'px)'"
+              >
+                <span class="diamond" aria-hidden="true"></span>{{ milestone.label }}
+              </span>
+            }
+          </div>
+          @if (nextGoal(); as goal) {
+            <p class="goal">Siguiente logro con <strong>{{ goal.missing }}</strong>: {{ goal.what }}.</p>
+          } @else {
+            <p class="goal">Set completo. Enhorabuena.</p>
+          }
+        } @else {
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 10px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 75%; height: 15px"></ion-skeleton-text>
+        }
+      </section>
+
+      <nav class="tabs" aria-label="Filtrar piezas">
+        @for (tab of tabs(); track tab.filter) {
+          <button class="tab" type="button" [class.active]="tab.active" [attr.aria-pressed]="tab.active" (click)="setFilter(tab.filter)">
+            <span class="tab-count num">{{ loaded() ? tab.count : '–' }}</span>
+            <span class="tab-label">{{ tab.label }}</span>
+          </button>
+        }
+      </nav>
+
+      @if (loaded()) {
+        <app-binder
+          [slots]="slots()"
+          [page]="store.page()"
+          [pageCount]="store.pageCount()"
+          (previous)="store.previousPage()"
+          (next)="store.nextPage()"
+          (open)="openItem($event)"
+        />
+      } @else {
+        <div class="binder-skeleton hud" aria-busy="true" aria-label="Cargando el archivador">
+          <ion-skeleton-text [animated]="true" style="width: 40%; height: 14px; margin: 0 auto"></ion-skeleton-text>
+          <div class="grid">
+            @for (skeleton of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track skeleton) {
+              <ion-skeleton-text [animated]="true" class="pocket"></ion-skeleton-text>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="legend" aria-hidden="true">
+        <span><span class="key tone-mid" [style.--hue]="hue()"></span>La tienes</span>
+        <span><span class="key wished"></span>La quieres</span>
+        <span><span class="key missing"></span>Hueco libre</span>
+      </div>
+
+      @if (top().length > 0) {
+        <section aria-labelledby="h-top">
+          <h2 id="h-top" class="section-label">Las más valiosas del set</h2>
+          @for (row of top(); track row.id) {
+            <button class="top-row" type="button" (click)="openItem(row.id)">
+              <span class="rank num" [class.first]="$first">{{ row.rank }}</span>
+              <app-item-thumb class="mini" [hue]="row.hue" [imageUrl]="row.imageUrl" />
+              <span class="top-text">
+                <span class="top-name">{{ row.name }}</span>
+                <span [class]="'top-state ' + row.tone">{{ row.state }}</span>
+              </span>
+              <span class="num top-price">{{ row.price }}</span>
+            </button>
+          }
+        </section>
+      }
+    }
+  </div>
+</ion-content>

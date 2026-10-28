@@ -1,0 +1,22 @@
+<div class="badge" [class.unlocked]="achievement().unlocked">
+  <div class="hex" aria-hidden="true">
+    @if (achievement().unlocked) {
+      <span class="num">{{ achievement().mark }}</span>
+    } @else {
+      <ion-icon name="lock-closed"></ion-icon>
+    }
+  </div>
+  <span class="name">{{ achievement().name }}</span>
+  @if (!achievement().unlocked) {
+    <span
+      class="track"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-valuenow]="progressPercent()"
+      [attr.aria-label]="'Progreso de ' + achievement().name"
+    >
+      <span [style.width.%]="progressPercent()"></span>
+    </span>
+  }
+</div>

@@ -1,0 +1,102 @@
+<ion-content class="grid-bg" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <header class="banner">
+    <div class="identity">
+      <div class="avatar-wrap">
+        <div class="avatar chamfer num" aria-hidden="true">{{ session.initials() }}</div>
+        @if (level(); as level) {
+          <span class="level num" aria-hidden="true">{{ level.level }}</span>
+        }
+      </div>
+      <div class="who">
+        <h1 class="name">{{ session.displayName() }}</h1>
+        @if (level(); as level) {
+          <span class="rank">{{ level.rank }}</span>
+        } @else {
+          <ion-skeleton-text [animated]="true" style="width: 150px; height: 15px"></ion-skeleton-text>
+        }
+      </div>
+    </div>
+
+    @if (level(); as level) {
+      <div class="xp">
+        <app-segment-bar [ratio]="level.ratio" />
+        <div class="xp-labels">
+          <span><span class="num strong">{{ level.xp }}</span> / {{ level.size }} XP</span>
+          <span>{{ level.toNext }}</span>
+        </div>
+      </div>
+    } @else if (!profile.progression.hasError()) {
+      <div class="xp" aria-busy="true" aria-label="Cargando tu nivel">
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 8px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 60%; height: 13px"></ion-skeleton-text>
+      </div>
+    }
+  </header>
+
+  <div class="content">
+    @if (profile.progression.hasError()) {
+      <div class="state-block" role="alert">
+        <p>No hemos podido cargar tu progreso.</p>
+        <button class="btn-secondary" type="button" (click)="retry()">Reintentar</button>
+      </div>
+    }
+
+    <app-stat-tiles label="Tus números" [tiles]="tiles()" [loading]="tilesLoading()" />
+
+    <section aria-labelledby="h-achievements">
+      <div class="section-head">
+        <h2 id="h-achievements" class="section-label">{{ achievementsTitle() }}</h2>
+      </div>
+      <div class="badges">
+        @if (profile.progression.value(); as progression) {
+          @for (achievement of progression.achievements; track achievement.id) {
+            <app-achievement-badge [achievement]="achievement" />
+          }
+        } @else if (profile.progression.isFirstLoad()) {
+          @for (skeleton of [1, 2, 3, 4, 5, 6]; track skeleton) {
+            <div class="badge-skeleton" aria-hidden="true">
+              <ion-skeleton-text [animated]="true" class="hex"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 70%; height: 13px"></ion-skeleton-text>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="h-wishes">
+      <div class="section-head">
+        <h2 id="h-wishes" class="section-label">Lo que buscas</h2>
+        <button class="link-btn wish" type="button" (click)="openWishlist()">Ver lista</button>
+      </div>
+      @if (profile.wishlist.isFirstLoad()) {
+        <div class="carousel" aria-busy="true" aria-label="Cargando tus deseos">
+          @for (skeleton of [1, 2, 3, 4]; track skeleton) {
+            <ion-skeleton-text [animated]="true" class="thumb-skeleton"></ion-skeleton-text>
+          }
+        </div>
+      } @else if (wishes().length === 0) {
+        <p class="hint">Marca con el corazón las piezas que te faltan para seguirlas desde aquí.</p>
+      } @else {
+        <div class="carousel">
+          @for (wish of wishes(); track wish.id) {
+            <button class="wish-item" type="button" (click)="openItem(wish.collectionId, wish.id)">
+              <app-item-thumb state="wished" [hue]="wish.hue" [imageUrl]="wish.imageUrl" />
+              <span class="wish-name">{{ wish.name }}</span>
+              <span class="wish-price num">{{ wish.price }}</span>
+            </button>
+          }
+        </div>
+      }
+    </section>
+
+    <section aria-label="Cuenta">
+      <button class="sign-out" type="button" [disabled]="signingOut()" (click)="signOut()">
+        {{ signingOut() ? 'Cerrando sesión…' : 'Cerrar sesión' }}
+      </button>
+    </section>
+  </div>
+</ion-content>

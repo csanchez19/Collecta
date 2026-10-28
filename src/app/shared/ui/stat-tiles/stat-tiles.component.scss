@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tile {
+  --cut: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: var(--collecta-surface);
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  &.wish {
+    color: var(--collecta-wish);
+  }
+}
+
+.suffix {
+  font-size: 16px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--collecta-text-muted);
+}

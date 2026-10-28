@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.bar {
+  display: flex;
+  gap: 2px;
+  padding-left: 2px;
+}
+
+span {
+  flex: 1;
+  height: var(--bar-height, 8px);
+  transform: skewX(-24deg);
+  background: var(--collecta-track);
+
+  &.on {
+    background: var(--collecta-gold);
+    box-shadow: 0 0 6px rgba(244, 225, 176, 0.22);
+  }
+}

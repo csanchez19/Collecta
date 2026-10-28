@@ -1,13 +1,31 @@
 ion-tab-bar {
   --border: 1px solid var(--ion-tab-bar-border-color);
-  padding-top: 4px;
-  height: 58px;
+  padding-top: 6px;
+  height: 62px;
 }
 
 ion-tab-button {
-  --color: var(--collecta-text-faint);
-  --color-selected: var(--ion-color-primary);
-  font-weight: 600;
+  --color: var(--collecta-text-muted);
+  --color-selected: var(--collecta-gold);
+  position: relative;
+  font-weight: 500;
+
+  // Glowing bar over the active tab.
+  &.tab-selected {
+    font-weight: 600;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 28px;
+      height: 3px;
+      margin-left: -14px;
+      background: var(--collecta-gold);
+      box-shadow: 0 0 10px var(--collecta-gold-glow);
+    }
+  }
 }
 
 ion-tab-button ion-icon {
@@ -15,6 +33,6 @@ ion-tab-button ion-icon {
 }
 
 ion-tab-button ion-label {
-  font-size: 10px;
-  margin-top: 2px;
+  font-size: 12px;
+  margin-top: 3px;
 }

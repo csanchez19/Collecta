@@ -1,0 +1,7 @@
+@if (tier() > 0) {
+  <span class="marks" aria-hidden="true">
+    @for (on of marks(); track $index) {
+      <span class="diamond" [class.off]="!on"></span>
+    }
+  </span>
+}

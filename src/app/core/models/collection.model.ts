@@ -1,6 +1,6 @@
 /**
  * A collection theme configured by an administrator (Hot Wheels, Pokémon 151…).
- * Each collection is backed by a per-item catalog exposed through a repository.
+ * Each collection groups sets, and each set its catalog items.
  */
 export type CollectionKind = 'car' | 'card' | 'spinner' | 'figure' | 'brick';
 
@@ -14,11 +14,15 @@ export interface Collection {
   readonly ownedCount: number;
   /** Total items in the collection catalog. */
   readonly totalCount: number;
+  /** Sets (expansions, series…) the collection groups. */
+  readonly setCount: number;
+  /** Market value of what the user owns, in euro cents. */
+  readonly ownedValueCents: number;
   /** 0–100 popularity score used to rank the "Populares" scope. */
   readonly popularity: number;
   /** True when the user already follows / owns items in this collection. */
   readonly mine: boolean;
-  /** OKLCH hue (0–360) that drives the card's accent gradient. */
+  /** OKLCH hue (0–360) every tone of the collection derives from. */
   readonly accentHue: number;
   /** Favourite state when fetched; the live value lives in `SessionStore`. */
   readonly isFavorite: boolean;

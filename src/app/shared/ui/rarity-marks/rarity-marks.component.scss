@@ -1,0 +1,16 @@
+:host {
+  display: inline-flex;
+}
+
+.marks {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.diamond {
+  --size: var(--mark-size, 6px);
+
+  &.off {
+    background: #3a3b40;
+  }
+}

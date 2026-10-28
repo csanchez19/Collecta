@@ -1,0 +1,24 @@
+<div
+  class="thumb tone-mid"
+  [class]="'is-' + state() + ' as-' + variant()"
+  [style.--hue]="hue()"
+  aria-hidden="true"
+>
+  @if (showsCode()) {
+    <span class="code num">{{ code() }}</span>
+  } @else if (imageUrl(); as url) {
+    <img [src]="url" alt="" loading="lazy" />
+  } @else {
+    <span class="sil-head"><span></span><span></span></span>
+    <span class="sil-art tone-art"></span>
+    <span class="sil-line"></span>
+    <span class="sil-line short"></span>
+  }
+
+  @if (state() === 'wished') {
+    <span class="badge wish"><ion-icon name="heart"></ion-icon></span>
+  }
+  @if (copies() > 1) {
+    <span class="badge copies num">×{{ copies() }}</span>
+  }
+</div>

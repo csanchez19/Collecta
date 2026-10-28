@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import {
-  albumsOutline,
-  addCircleOutline,
-  compassOutline,
-  personOutline,
-} from 'ionicons/icons';
+import { compassOutline, gridOutline, heartOutline, personOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tabs',
@@ -17,6 +12,6 @@ import {
 })
 export class TabsPage {
   constructor() {
-    addIcons({ albumsOutline, compassOutline, addCircleOutline, personOutline });
+    addIcons({ gridOutline, compassOutline, heartOutline, personOutline });
   }
 }

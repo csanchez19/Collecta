@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+.panel {
+  --cut: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--collecta-surface);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.value-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.muted {
+  margin: 0;
+  font-size: 14px;
+  color: var(--collecta-text-muted);
+}
+
+.value {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(150, 205, 164, 0.12);
+  color: var(--collecta-up);
+  font-size: 14px;
+  font-weight: 600;
+
+  &.down {
+    background: rgba(238, 158, 158, 0.12);
+    color: var(--collecta-down);
+  }
+}
+
+.ranges {
+  display: flex;
+  gap: 4px;
+
+  button {
+    min-height: 36px;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: var(--collecta-text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &.active {
+      background: var(--collecta-gold-soft);
+      color: var(--collecta-gold);
+    }
+  }
+}

@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  padding: calc(env(safe-area-inset-top) + 12px) 12px 18px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--collecta-surface);
+  border-bottom: 2px solid oklch(0.8 0.09 var(--hue));
+}
+
+.ghost {
+  position: absolute;
+  right: -10px;
+  bottom: -40px;
+  font-size: 180px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  opacity: 0.13;
+  white-space: nowrap;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: -8px;
+}
+
+.back {
+  --cut: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 12px 0 6px;
+  border: 0;
+  background: rgba(15, 16, 18, 0.55);
+  color: var(--ion-text-color);
+  font: 500 15px var(--ion-font-family);
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eyebrow {
+  font-size: 14px;
+  color: oklch(0.86 0.05 var(--hue));
+}
+
+.title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+}

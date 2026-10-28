@@ -14,32 +14,31 @@ export const routes: Routes = [
           import('../features/collections/collections.page').then((m) => m.CollectionsPage),
       },
       {
-        // Screen 2 — listado de objetos (placeholder until built).
+        // Deep routes stay inside the colecciones tab stack so back navigation works.
         path: 'colecciones/:collectionId',
-        component: PlaceholderPage,
-        data: { title: 'Objetos', message: 'El listado de objetos de la colección llega en el siguiente paso.' },
+        loadComponent: () =>
+          import('../features/collection/collection.page').then((m) => m.CollectionPage),
       },
       {
-        // Screen 3 — detalle del objeto (placeholder until built).
+        path: 'colecciones/:collectionId/set/:setId',
+        loadComponent: () => import('../features/set/set.page').then((m) => m.SetPage),
+      },
+      {
         path: 'colecciones/:collectionId/objeto/:itemId',
-        component: PlaceholderPage,
-        data: { title: 'Ficha del objeto', message: 'La ficha con datos de mercado e imágenes llega en el siguiente paso.' },
+        loadComponent: () => import('../features/item/item.page').then((m) => m.ItemPage),
       },
       {
         path: 'explorar',
         component: PlaceholderPage,
-        data: { title: 'Explorar', message: 'Descubre objetos y colecciones populares. En construcción.' },
+        data: { title: 'Explorar', message: 'Descubre colecciones y piezas del catálogo. En construcción.' },
       },
       {
-        // Screen 4 — añadir objeto (placeholder until built).
-        path: 'anadir',
-        component: PlaceholderPage,
-        data: { title: 'Añadir objeto', message: 'El alta de objetos y el enlace al catálogo llegan en el siguiente paso.' },
+        path: 'deseos',
+        loadComponent: () => import('../features/wishlist/wishlist.page').then((m) => m.WishlistPage),
       },
       {
         path: 'perfil',
-        component: PlaceholderPage,
-        data: { title: 'Perfil', message: 'Tu vitrina, avatares y colecciones favoritas. En construcción.' },
+        loadComponent: () => import('../features/profile/profile.page').then((m) => m.ProfilePage),
       },
       { path: '', redirectTo: 'colecciones', pathMatch: 'full' },
     ],

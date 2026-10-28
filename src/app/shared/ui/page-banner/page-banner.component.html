@@ -1,0 +1,28 @@
+<header class="banner stripes" [class.tone-bg]="!loading()" [style.--hue]="hue()">
+  @if (!loading()) {
+    <span class="ghost num tone-fg" aria-hidden="true">{{ ghost() }}</span>
+  }
+
+  <div class="bar">
+    <button class="back chamfer" type="button" (click)="back.emit()">
+      <ion-icon name="chevron-back" aria-hidden="true"></ion-icon>
+      {{ backLabel() }}
+    </button>
+    <ng-content select="[actions]"></ng-content>
+  </div>
+
+  <div class="heading">
+    <ng-content select="[icon]"></ng-content>
+    @if (loading()) {
+      <div class="texts" aria-busy="true" aria-label="Cargando">
+        <ion-skeleton-text [animated]="true" style="width: 150px; height: 14px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 120px; height: 34px"></ion-skeleton-text>
+      </div>
+    } @else {
+      <div class="texts">
+        <span class="eyebrow">{{ eyebrow() }}</span>
+        <h1 class="title">{{ title() }}</h1>
+      </div>
+    }
+  </div>
+</header>
